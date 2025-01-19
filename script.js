@@ -1,6 +1,6 @@
-document.getElementById('botaoTelaCheia').addEventListener('click', function() {
+document.getElementById('botaoTelaCheia').addEventListener('click', function () {
     const elemento = document.documentElement; // Define o elemento que será exibido em tela cheia (a página inteira)
-    
+
     if (elemento.requestFullscreen) {
         elemento.requestFullscreen();
     } else if (elemento.webkitRequestFullscreen) { // Para navegadores baseados em WebKit
@@ -20,11 +20,11 @@ let inventario = []; // Inventário sem salvar no localStorage
 let quantidadesPorProduto = {}; // Armazenar as quantidades totais por produto
 
 // Carregar o arquivo CSV
-document.getElementById('uploadArquivo').addEventListener('change', function(e) {
+document.getElementById('uploadArquivo').addEventListener('change', function (e) {
     var arquivo = e.target.files[0];
     var leitor = new FileReader();
 
-    leitor.onload = function(evento) {
+    leitor.onload = function (evento) {
         // Extrai o conteúdo do arquivo
         let conteudo = evento.target.result;
 
@@ -74,7 +74,7 @@ function exibirListaDeProdutos(produtos) {
     produtos.forEach((produto, index) => {
         const itemLista = document.createElement('li');
         itemLista.textContent = produto[1]; // Exibe o nome do produto (na segunda coluna)
-        
+
         // Adiciona um evento de clique para mostrar detalhes do produto
         itemLista.addEventListener('click', () => {
             mostrarDetalhesDoProduto(produto);
@@ -98,7 +98,7 @@ function mostrarDetalhesDoProduto(produto) {
     document.getElementById('quantidade').value = totalQuantidades;
     const campoQuantidade = document.getElementById('quantidade');
     campoQuantidade.select();
-    
+
     // Esconde a lista de produtos encontrados após selecionar um item
     document.getElementById('listaProdutosEncontrados').style.display = 'none';
 }
@@ -116,7 +116,7 @@ function mostrarDetalhesDoProduto(produto) {
 
 
 // Procurar o código digitado e exibir as informações quando "Enter" for pressionado
-document.getElementById('codigoBarras').addEventListener('keydown', function(evento) {
+document.getElementById('codigoBarras').addEventListener('keydown', function (evento) {
     if (evento.keyCode === 13) {  // Se "Enter" for pressionado
         const codigo = this.value.trim();
 
@@ -165,7 +165,7 @@ document.getElementById('codigoBarras').addEventListener('keydown', function(eve
 
 
 // Procurar o nome do produto e exibir as informações quando "Enter" for pressionado
-document.getElementById('nomeProduto').addEventListener('keydown', function(evento) {
+document.getElementById('nomeProduto').addEventListener('keydown', function (evento) {
     if (evento.keyCode === 13) {  // Se "Enter" for pressionado
         const nome = this.value.trim().toLowerCase();
 
@@ -211,7 +211,7 @@ document.getElementById('nomeProduto').addEventListener('keydown', function(even
 
 
 // Salvar os dados do produto no inventário quando a tecla "Enter" for pressionada no campo "quantidade"
-document.getElementById('quantidade').addEventListener('keydown', function(evento) {
+document.getElementById('quantidade').addEventListener('keydown', function (evento) {
     if (evento.keyCode === 13) {
         const local = document.getElementById('local').value.trim();
         let quantidade = this.value.trim();
@@ -263,7 +263,7 @@ document.getElementById('quantidade').addEventListener('keydown', function(event
 });
 
 // Função para gerar e baixar o arquivo CSV com os dados do inventário
-document.getElementById('botaoSalvarFinal').addEventListener('click', function() {
+document.getElementById('botaoSalvarFinal').addEventListener('click', function () {
     if (inventario.length === 0) {
         alert('Nenhum dado de inventário foi registrado.');
         return;
@@ -295,12 +295,12 @@ document.getElementById('botaoSalvarFinal').addEventListener('click', function()
 });
 
 // Forçar o salvamento dos dados antes de fechar ou recarregar a página
-window.addEventListener('beforeunload', function(event) {
+window.addEventListener('beforeunload', function (event) {
     if (inventario.length > 0) {
         // Impede a página de ser fechada ou recarregada imediatamente
         event.preventDefault();
         event.returnValue = ''; // Exibe uma mensagem de confirmação (depende do navegador)
-        
+
         // Chama a função de salvar o inventário
         salvarInventario();
     }

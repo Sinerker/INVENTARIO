@@ -1,28 +1,31 @@
 /* Estilos gerais */
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 10px;
-    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 10px;
+    padding: 5px;
+    background-color: #f9f9f9;
+    font-size: 14px;  /* Reduz o tamanho da fonte */
 }
 
 h1 {
     text-align: center;
-    color: #333;
+    color: #4CAF50;
+    font-size: 22px;  /* Ajuste no tamanho do título */
+    margin-bottom: 10px;
 }
 
 /* Estilos para os grupos de formulário */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 10px;  /* Diminui o espaçamento */
 }
 
 /* Estilos para os campos de entrada */
 input[type="text"], input[type="number"] {
     width: 100%;
-    padding: 10px;
-    font-size: 16px;
+    padding: 8px;  /* Reduz o padding */
+    font-size: 14px;  /* Ajusta o tamanho da fonte */
     margin-top: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;  /* Cor de borda mais suave */
     border-radius: 4px;
 }
 
@@ -30,11 +33,13 @@ input[type="text"], input[type="number"] {
 button {
     background-color: #4CAF50;
     color: white;
-    font-size: 16px;
-    padding: 10px 20px;
+    font-size: 14px;  /* Diminui o tamanho da fonte */
+    padding: 8px 16px;  /* Ajusta o padding */
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    width: 100%;  /* Torna o botão de largura total */
+    margin-top: 10px;
 }
 
 button:hover {
@@ -48,8 +53,9 @@ button:hover {
     background-color: #4CAF50;
     color: white;
     font-weight: bold;
-    border-radius: 5px;
+    border-radius: 4px;
     text-align: center;
+    font-size: 14px;  /* Ajusta o tamanho da fonte */
 }
 
 /* Exibir os dados do produto encontrado */
@@ -57,23 +63,41 @@ button:hover {
     margin-top: 20px;
     padding: 10px;
     background-color: #e7f7e7;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 14px;  /* Ajusta o tamanho da fonte */
 }
 
 #detalhesProduto {
-    font-size: 16px;
+    font-size: 14px;  /* Ajuste no tamanho do texto */
 }
 
 /* Estilos para a mensagem de upload bem-sucedido */
 #mensagemUpload {
-    font-size: 12px; /* Diminui o tamanho da fonte */
-    padding: 5px 5px; /* Reduz o espaçamento interno */
-    margin: 0px 0; /* Ajusta a margem para não ocupar tanto espaço */
-    background-color: #d9d4ed; /* Cor de fundo (opcional) */
-    color: #2a0b99; /* Cor do texto (opcional) */
-    border: 1px solid #c3e6cb; /* Borda fina (opcional) */
-    border-radius: 4px; /* Bordas arredondadas (opcional) */
-    max-width: 300px; /* Limita a largura da mensagem */
-    text-align: center; /* Centraliza o texto (opcional) */
+    font-size: 12px; 
+    padding: 5px 5px; 
+    margin: 0px 0; 
+    background-color: #d9d4ed; 
+    color: #2a0b99; 
+    border: 1px solid #c3e6cb; 
+    border-radius: 4px; 
+    max-width: 250px;  /* Ajusta a largura */
+    text-align: center;
+    margin: 0 auto;
+}
+
+/* Ajustes para dispositivos pequenos */
+@media (max-width: 600px) {
+    body {
+        font-size: 12px;  /* Reduz mais o tamanho da fonte para telas pequenas */
+    }
+
+    input[type="text"], input[type="number"], button {
+        font-size: 12px;  /* Ajusta o tamanho da fonte */
+        padding: 6px;  /* Reduz o padding */
+    }
+
+    h1 {
+        font-size: 18px;  /* Ajuste no título */
+    }
 }
