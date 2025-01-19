@@ -1,24 +1,18 @@
-document.getElementById('botaoTelaCheia').addEventListener('click', function () {
-    const elemento = document.documentElement; // Define o elemento para entrar em tela cheia (a página inteira)
-
-    // Verifica qual método de tela cheia está disponível no navegador
+document.getElementById('botaoTelaCheia').addEventListener('click', function() {
+    const elemento = document.documentElement; // Define o elemento que será exibido em tela cheia (a página inteira)
+    
     if (elemento.requestFullscreen) {
         elemento.requestFullscreen();
-    } else if (elemento.webkitRequestFullscreen) { // Para navegadores baseados em WebKit (incluindo Chrome no Android)
+    } else if (elemento.webkitRequestFullscreen) { // Para navegadores baseados em WebKit
         elemento.webkitRequestFullscreen();
-    } else if (elemento.mozRequestFullScreen) { // Para navegadores baseados em Mozilla (Firefox)
+    } else if (elemento.mozRequestFullScreen) { // Para navegadores baseados em Mozilla
         elemento.mozRequestFullScreen();
-    } else if (elemento.msRequestFullscreen) { // Para navegadores baseados em IE/Edge
+    } else if (elemento.msRequestFullscreen) { // Para IE/Edge
         elemento.msRequestFullscreen();
-    } else {
-        alert("Seu navegador não suporta o modo tela cheia.");
-        return;
     }
 
-    // Oculta o botão após entrar em tela cheia
     this.style.display = 'none';
 });
-
 
 
 
