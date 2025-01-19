@@ -14,14 +14,10 @@ document.getElementById('botaoTelaCheia').addEventListener('click', function() {
     this.style.display = 'none';
 });
 
-
-
 // Variável para armazenar os dados do CSV após carregado
 let dadosCsv = [];
 let inventario = []; // Inventário sem salvar no localStorage
 let quantidadesPorProduto = {}; // Armazenar as quantidades totais por produto
-
-
 
 // Carregar o arquivo CSV
 document.getElementById('uploadArquivo').addEventListener('change', function(e) {
@@ -51,37 +47,168 @@ document.getElementById('uploadArquivo').addEventListener('change', function(e) 
 
 
 
-// Procurar o código digitado e exibir as informações apenas quando "Enter" for pressionado
+
+
+
+
+
+
+
+
+
+
+
+// Função para exibir os produtos encontrados na lista
+function exibirListaDeProdutos(produtos) {
+    const listaProdutos = document.getElementById('listaProdutos');
+    listaProdutos.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
+
+    // Se não houver produtos encontrados, exibe a mensagem apropriada
+    if (produtos.length === 0) {
+        document.getElementById('listaProdutosEncontrados').style.display = 'none';
+        document.getElementById('detalhesProduto').textContent = 'Nenhum produto encontrado.';
+        return;
+    }
+
+    // Exibe a lista de produtos encontrados
+    produtos.forEach((produto, index) => {
+        const itemLista = document.createElement('li');
+        itemLista.textContent = produto[1]; // Exibe o nome do produto (na segunda coluna)
+        
+        // Adiciona um evento de clique para mostrar detalhes do produto
+        itemLista.addEventListener('click', () => {
+            mostrarDetalhesDoProduto(produto);
+        });
+
+        listaProdutos.appendChild(itemLista);
+    });
+
+    document.getElementById('listaProdutosEncontrados').style.display = 'block';
+}
+
+// Função para exibir os detalhes de um produto
+function mostrarDetalhesDoProduto(produto) {
+    document.getElementById('detalhesProduto').textContent = produto.join(' | ');
+    document.getElementById('infoProduto').style.display = 'block';
+    document.getElementById('quantidade').focus();
+
+    // Exibe a quantidade total registrada anteriormente
+    const produtoChave = produto[3].trim(); // Usamos o código de barras como chave
+    const totalQuantidades = quantidadesPorProduto[produtoChave] || 0;
+    document.getElementById('quantidade').value = totalQuantidades;
+    const campoQuantidade = document.getElementById('quantidade');
+    campoQuantidade.select();
+    
+    // Esconde a lista de produtos encontrados após selecionar um item
+    document.getElementById('listaProdutosEncontrados').style.display = 'none';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Procurar o código digitado e exibir as informações quando "Enter" for pressionado
 document.getElementById('codigoBarras').addEventListener('keydown', function(evento) {
-    if (evento.keyCode === 13) {
+    if (evento.keyCode === 13) {  // Se "Enter" for pressionado
         const codigo = this.value.trim();
 
-        if (!codigo) {
+        if (!codigo && !document.getElementById('nomeProduto').value.trim()) {
             document.getElementById('infoProduto').style.display = 'none';
             return;
         }
 
-        const produto = dadosCsv.find(linha => linha[3] && linha[3].trim() === codigo);
+        let produtoEncontrado = null;
 
-        if (produto) {
-            document.getElementById('detalhesProduto').textContent = produto.join(' | ');
-            document.getElementById('infoProduto').style.display = 'block';
-            document.getElementById('quantidade').focus();
-            
+        if (codigo) {
+            // Buscar produto pelo código de barras
+            produtoEncontrado = dadosCsv.find(linha => linha[3] && linha[3].trim() === codigo);
+        }
 
-            // Exibe a quantidade total registrada anteriormente
-            const produtoChave = produto[3].trim(); // Usamos o código de barras como chave
-            const totalQuantidades = quantidadesPorProduto[produtoChave] || 0;
-            document.getElementById('quantidade').value = totalQuantidades;
-            const campoQuantidade = document.getElementById('quantidade');
-            campoQuantidade.select();
-
+        if (produtoEncontrado) {
+            // Se o produto for encontrado, exibe os detalhes
+            mostrarDetalhesDoProduto(produtoEncontrado);
+        } else if (document.getElementById('nomeProduto').value.trim()) {
+            // Se não encontrar pelo código, buscar pelo nome
+            const nome = document.getElementById('nomeProduto').value.trim().toLowerCase();
+            const produtosEncontrados = dadosCsv.filter(linha => linha[1] && linha[1].trim().toLowerCase().includes(nome));
+            exibirListaDeProdutos(produtosEncontrados);
         } else {
-            document.getElementById('detalhesProduto').textContent = 'Produto não encontrado.';
-            document.getElementById('infoProduto').style.display = 'block';
+            // Se não encontrar nada, esconda os detalhes
+            document.getElementById('infoProduto').style.display = 'none';
         }
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Procurar o nome do produto e exibir as informações quando "Enter" for pressionado
+document.getElementById('nomeProduto').addEventListener('keydown', function(evento) {
+    if (evento.keyCode === 13) {  // Se "Enter" for pressionado
+        const nome = this.value.trim().toLowerCase();
+
+        if (!nome && !document.getElementById('codigoBarras').value.trim()) {
+            document.getElementById('infoProduto').style.display = 'none';
+            return;
+        }
+
+        let produtosEncontrados = [];
+
+        if (nome) {
+            // Buscar produto pelo nome (verificando se a palavra está contida na descrição)
+            produtosEncontrados = dadosCsv.filter(linha => linha[1] && linha[1].trim().toLowerCase().includes(nome));
+        }
+
+        if (!produtosEncontrados.length && document.getElementById('codigoBarras').value.trim()) {
+            // Se não encontrar pelo nome, buscar pelo código de barras
+            const codigo = document.getElementById('codigoBarras').value.trim();
+            produtosEncontrados = dadosCsv.filter(linha => linha[3] && linha[3].trim() === codigo);
+        }
+
+        exibirListaDeProdutos(produtosEncontrados);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Salvar os dados do produto no inventário quando a tecla "Enter" for pressionada no campo "quantidade"
 document.getElementById('quantidade').addEventListener('keydown', function(evento) {
@@ -210,17 +337,3 @@ function salvarInventario() {
         alert('Download cancelado!');
     }
 }
-
-// Definir inputmode="none" e readonly nos campos
-document.getElementById('codigoBarras').setAttribute('inputmode', 'none');
-document.getElementById('quantidade').setAttribute('inputmode', 'none');
-document.getElementById('codigoBarras').setAttribute('readonly', true);
-document.getElementById('quantidade').setAttribute('readonly', true);
-
-// Remover readonly ao focar no campo, permitindo o uso do teclado físico
-document.getElementById('codigoBarras').addEventListener('focus', function() {
-    this.removeAttribute('readonly');
-});
-document.getElementById('quantidade').addEventListener('focus', function() {
-    this.removeAttribute('readonly');
-});

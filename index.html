@@ -23,12 +23,10 @@
         <p>Arquivo carregado com sucesso!</p>
     </div>
 
-
     <div class="form-group">
         <label for="usuario">Usuario:</label>
         <input type="text" id="usuario" name="local" placeholder="Digite o usuário" />
     </div>
-
 
     <!-- Campo para digitar o local -->
     <div class="form-group">
@@ -40,6 +38,17 @@
     <div class="form-group">
         <label for="codigoBarras">Código de Barras:</label>
         <input type="text" id="codigoBarras" name="codigoBarras" placeholder="Digite o código de barras"  />
+    </div>
+
+    <!-- Campo para digitar o nome do produto -->
+    <div class="form-group">
+        <label for="nomeProduto">Nome do Produto:</label>
+        <input type="text" id="nomeProduto" name="nomeProduto" placeholder="Digite o nome do produto" />
+    </div>
+    
+    <div id="listaProdutosEncontrados" class="form-group" style="display: none;">
+        <label>Produtos encontrados:</label>
+        <ul id="listaProdutos"></ul>
     </div>
 
     <!-- Exibição dos dados encontrados no CSV -->
@@ -58,8 +67,6 @@
     <div class="form-group">
         <button id="botaoSalvarFinal">Salvar Inventário Final</button>
     </div>
-
-    
 
     <div id="mensagemConfirmacao" style="display: none;">
         <p>Informações salvas com sucesso!</p>
