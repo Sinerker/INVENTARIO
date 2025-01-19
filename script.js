@@ -1,5 +1,6 @@
 
 
+
 document.getElementById('botaoTelaCheia').addEventListener('click', function() {
     const elemento = document.documentElement; // Define o elemento que será exibido em tela cheia (a página inteira)
     
@@ -7,6 +8,10 @@ document.getElementById('botaoTelaCheia').addEventListener('click', function() {
         elemento.requestFullscreen();
     } else if (elemento.webkitRequestFullscreen) { // Para navegadores baseados em WebKit
         elemento.webkitRequestFullscreen();
+    } else if (elemento.mozRequestFullScreen) { // Para navegadores baseados em Mozilla
+        elemento.mozRequestFullScreen();
+    } else if (elemento.msRequestFullscreen) { // Para IE/Edge
+        elemento.msRequestFullscreen();
     }
 
     this.style.display = 'none';
