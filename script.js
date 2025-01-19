@@ -41,6 +41,7 @@ document.getElementById('uploadArquivo').addEventListener('change', function(e) 
         // Esconde o título (h1) e o botão de carregar arquivo
         document.getElementById('titulo').style.display = 'none'; // Supondo que o id do título seja 'titulo'
         document.getElementById('uploadArquivo').style.display = 'none'; // Supondo que o id do botão de upload seja 'uploadArquivo'
+        document.getElementById('mensagemUpload').style.display = 'none';
     };
 
     if (arquivo) {
