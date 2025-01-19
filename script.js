@@ -1,3 +1,40 @@
+// Detectar se o dispositivo é Android
+const isAndroid = /Android/i.test(navigator.userAgent);
+
+// Se for Android, vamos desabilitar o teclado virtual
+if (isAndroid) {
+    // Para o campo de código de barras
+    const codigoBarras = document.getElementById('codigoBarras');
+    const quantidade = document.getElementById('quantidade');
+    
+    // Quando o campo de código de barras recebe foco
+    codigoBarras.addEventListener('focus', function() {
+        // Perde o foco imediatamente para evitar o teclado virtual
+        setTimeout(() => {
+            codigoBarras.blur(); // Remove o foco
+            // E imediatamente volta o foco para o campo novamente, mas sem abrir o teclado
+            setTimeout(() => { 
+                codigoBarras.focus(); // Foca novamente, mas sem abrir o teclado
+            }, 50); 
+        }, 50);
+    });
+
+    // Quando o campo de quantidade recebe foco
+    quantidade.addEventListener('focus', function() {
+        // Perde o foco imediatamente para evitar o teclado virtual
+        setTimeout(() => {
+            quantidade.blur(); // Remove o foco
+            // E imediatamente volta o foco para o campo novamente, mas sem abrir o teclado
+            setTimeout(() => { 
+                quantidade.focus(); // Foca novamente, mas sem abrir o teclado
+            }, 50); 
+        }, 50);
+    });
+}
+
+
+
+
 document.getElementById('botaoTelaCheia').addEventListener('click', function() {
     const elemento = document.documentElement; // Define o elemento que será exibido em tela cheia (a página inteira)
     
