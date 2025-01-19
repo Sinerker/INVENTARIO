@@ -210,3 +210,7 @@ function salvarInventario() {
         alert('Download cancelado!');
     }
 }
+
+document.getElementById('codigoBarras').setAttribute('inputmode', 'none');
+document.getElementById('quantidade').setAttribute('inputmode', 'none');
+
