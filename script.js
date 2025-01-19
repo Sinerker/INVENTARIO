@@ -1,3 +1,40 @@
+// Detectar se o dispositivo é Android
+const isAndroid = /Android/i.test(navigator.userAgent);
+
+// Desabilitar o teclado virtual apenas em dispositivos Android
+if (isAndroid) {
+    // Adiciona o atributo readonly aos campos de entrada
+    document.getElementById('codigoBarras').setAttribute('readonly', true);
+    document.getElementById('quantidade').setAttribute('readonly', true);
+
+    // Permitir edição temporária no Android via clique duplo
+    document.getElementById('codigoBarras').addEventListener('dblclick', function () {
+        this.removeAttribute('readonly'); // Remove o readonly para permitir edição
+        this.focus();
+    });
+
+    document.getElementById('quantidade').addEventListener('dblclick', function () {
+        this.removeAttribute('readonly'); // Remove o readonly para permitir edição
+        this.focus();
+    });
+
+    // Voltar a tornar os campos readonly após Enter
+    document.getElementById('codigoBarras').addEventListener('keydown', function (evento) {
+        if (evento.keyCode === 13) {
+            this.setAttribute('readonly', true); // Retorna readonly
+        }
+    });
+
+    document.getElementById('quantidade').addEventListener('keydown', function (evento) {
+        if (evento.keyCode === 13) {
+            this.setAttribute('readonly', true); // Retorna readonly
+        }
+    });
+}
+
+
+
+
 document.getElementById('botaoTelaCheia').addEventListener('click', function() {
     const elemento = document.documentElement; // Define o elemento que será exibido em tela cheia (a página inteira)
     
