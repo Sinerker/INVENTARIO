@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventário</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Inventário de Produtos</h1>
+
+    <!-- Campo para carregar o arquivo CSV -->
+    <div class="form-group">
+        <label for="uploadArquivo">Carregar Arquivo CSV:</label>
+        <input type="file" id="uploadArquivo" accept=".csv" />
+    </div>
+
+    <!-- Mensagem de confirmação após o arquivo ser carregado -->
+    <div id="mensagemUpload" style="display: none;">
+        <p>Arquivo carregado com sucesso!</p>
+    </div>
+
+
+    <div class="form-group">
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" name="local" placeholder="Digite o usuário" />
+    </div>
+
+
+    <!-- Campo para digitar o local -->
+    <div class="form-group">
+        <label for="local">Local:</label>
+        <input type="text" id="local" name="local" placeholder="Digite o local" />
+    </div>
+
+    <!-- Campo para digitar o código de barras -->
+    <div class="form-group">
+        <label for="codigoBarras">Código de Barras:</label>
+        <input type="text" id="codigoBarras" name="codigoBarras" placeholder="Digite o código de barras" />
+    </div>
+
+    <!-- Exibição dos dados encontrados no CSV -->
+    <div id="infoProduto" class="form-group" style="display: none;">
+        <label>Dados do Produto Encontrado:</label>
+        <p id="detalhesProduto">Nenhum produto encontrado.</p>
+    </div>
+
+    <!-- Campo para digitar a quantidade -->
+    <div class="form-group">
+        <label for="quantidade">Quantidade:</label>
+        <input type="number" id="quantidade" name="quantidade" placeholder="Digite a quantidade" />
+    </div>
+
+    <!-- Botão de salvar o inventário completo -->
+    <div class="form-group">
+        <button id="botaoSalvarFinal">Salvar Inventário Final</button>
+    </div>
+
+    
+
+    <div id="mensagemConfirmacao" style="display: none;">
+        <p>Informações salvas com sucesso!</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
