@@ -1,6 +1,3 @@
-
-
-
 document.getElementById('botaoTelaCheia').addEventListener('click', function() {
     const elemento = document.documentElement; // Define o elemento que será exibido em tela cheia (a página inteira)
     
