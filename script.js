@@ -211,6 +211,16 @@ function salvarInventario() {
     }
 }
 
+// Definir inputmode="none" e readonly nos campos
 document.getElementById('codigoBarras').setAttribute('inputmode', 'none');
 document.getElementById('quantidade').setAttribute('inputmode', 'none');
+document.getElementById('codigoBarras').setAttribute('readonly', true);
+document.getElementById('quantidade').setAttribute('readonly', true);
 
+// Remover readonly ao focar no campo, permitindo o uso do teclado físico
+document.getElementById('codigoBarras').addEventListener('focus', function() {
+    this.removeAttribute('readonly');
+});
+document.getElementById('quantidade').addEventListener('focus', function() {
+    this.removeAttribute('readonly');
+});
