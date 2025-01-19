@@ -21,6 +21,8 @@ let dadosCsv = [];
 let inventario = []; // Inventário sem salvar no localStorage
 let quantidadesPorProduto = {}; // Armazenar as quantidades totais por produto
 
+
+
 // Carregar o arquivo CSV
 document.getElementById('uploadArquivo').addEventListener('change', function(e) {
     var arquivo = e.target.files[0];
@@ -35,12 +37,18 @@ document.getElementById('uploadArquivo').addEventListener('change', function(e) 
 
         // Exibe a mensagem de sucesso ao carregar o arquivo
         document.getElementById('mensagemUpload').style.display = 'block';
+
+        // Esconde o título (h1) e o botão de carregar arquivo
+        document.getElementById('titulo').style.display = 'none'; // Supondo que o id do título seja 'titulo'
+        document.getElementById('uploadArquivo').style.display = 'none'; // Supondo que o id do botão de upload seja 'uploadArquivo'
     };
 
     if (arquivo) {
         leitor.readAsText(arquivo);
     }
 });
+
+
 
 // Procurar o código digitado e exibir as informações apenas quando "Enter" for pressionado
 document.getElementById('codigoBarras').addEventListener('keydown', function(evento) {
