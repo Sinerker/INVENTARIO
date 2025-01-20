@@ -45,19 +45,6 @@ document.getElementById('uploadArquivo').addEventListener('change', function (e)
     }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Função para exibir os produtos encontrados na lista
 function exibirListaDeProdutos(produtos) {
     const listaProdutos = document.getElementById('listaProdutos');
@@ -103,112 +90,37 @@ function mostrarDetalhesDoProduto(produto) {
     document.getElementById('listaProdutosEncontrados').style.display = 'none';
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-// Procurar o código digitado e exibir as informações quando "Enter" for pressionado
+// Procurar o código ou nome do produto e exibir as informações quando "Enter" for pressionado
 document.getElementById('codigoBarras').addEventListener('keydown', function (evento) {
     if (evento.keyCode === 13) {  // Se "Enter" for pressionado
-        const codigo = this.value.trim();
+        const pesquisa = this.value.trim();
 
-        if (!codigo && !document.getElementById('nomeProduto').value.trim()) {
+        if (!pesquisa) {
             document.getElementById('infoProduto').style.display = 'none';
             return;
         }
 
         let produtoEncontrado = null;
 
-        if (codigo) {
-            // Buscar produto pelo código de barras
-            produtoEncontrado = dadosCsv.find(linha => linha[3] && linha[3].trim() === codigo);
-        }
+        // Tentar buscar pelo código de barras
+        produtoEncontrado = dadosCsv.find(linha => linha[3] && linha[3].trim() === pesquisa);
 
         if (produtoEncontrado) {
-            // Se o produto for encontrado, exibe os detalhes
+            // Se o produto for encontrado pelo código, exibe os detalhes
             mostrarDetalhesDoProduto(produtoEncontrado);
-        } else if (document.getElementById('nomeProduto').value.trim()) {
-            // Se não encontrar pelo código, buscar pelo nome
-            const nome = document.getElementById('nomeProduto').value.trim().toLowerCase();
-            const produtosEncontrados = dadosCsv.filter(linha => linha[1] && linha[1].trim().toLowerCase().includes(nome));
-            exibirListaDeProdutos(produtosEncontrados);
         } else {
-            // Se não encontrar nada, esconda os detalhes
-            document.getElementById('infoProduto').style.display = 'none';
+            // Se não encontrar pelo código, buscar pelo nome
+            const nomeProdutosEncontrados = dadosCsv.filter(linha => linha[1] && linha[1].trim().toLowerCase().includes(pesquisa.toLowerCase()));
+
+            if (nomeProdutosEncontrados.length > 0) {
+                exibirListaDeProdutos(nomeProdutosEncontrados);
+            } else {
+                // Se não encontrar pelo nome ou código
+                document.getElementById('infoProduto').style.display = 'none';
+            }
         }
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Procurar o nome do produto e exibir as informações quando "Enter" for pressionado
-document.getElementById('nomeProduto').addEventListener('keydown', function (evento) {
-    if (evento.keyCode === 13) {  // Se "Enter" for pressionado
-        const nome = this.value.trim().toLowerCase();
-
-        if (!nome && !document.getElementById('codigoBarras').value.trim()) {
-            document.getElementById('infoProduto').style.display = 'none';
-            return;
-        }
-
-        let produtosEncontrados = [];
-
-        if (nome) {
-            // Buscar produto pelo nome (verificando se a palavra está contida na descrição)
-            produtosEncontrados = dadosCsv.filter(linha => linha[1] && linha[1].trim().toLowerCase().includes(nome));
-        }
-
-        if (!produtosEncontrados.length && document.getElementById('codigoBarras').value.trim()) {
-            // Se não encontrar pelo nome, buscar pelo código de barras
-            const codigo = document.getElementById('codigoBarras').value.trim();
-            produtosEncontrados = dadosCsv.filter(linha => linha[3] && linha[3].trim() === codigo);
-        }
-
-        exibirListaDeProdutos(produtosEncontrados);
-    }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Salvar os dados do produto no inventário quando a tecla "Enter" for pressionada no campo "quantidade"
 document.getElementById('quantidade').addEventListener('keydown', function (evento) {
