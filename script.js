@@ -1,18 +1,51 @@
-document.getElementById('botaoTelaCheia').addEventListener('click', function () {
-    const elemento = document.documentElement; // Define o elemento que será exibido em tela cheia (a página inteira)
+const botao = document.getElementById('botaoTelaCheia');
+
+botao.addEventListener('click', function () {
+    const elemento = document.documentElement; // Define o elemento a ser exibido em tela cheia
 
     if (elemento.requestFullscreen) {
         elemento.requestFullscreen();
-    } else if (elemento.webkitRequestFullscreen) { // Para navegadores baseados em WebKit
+    } else if (elemento.webkitRequestFullscreen) {
         elemento.webkitRequestFullscreen();
-    } else if (elemento.mozRequestFullScreen) { // Para navegadores baseados em Mozilla
+    } else if (elemento.mozRequestFullScreen) {
         elemento.mozRequestFullScreen();
-    } else if (elemento.msRequestFullscreen) { // Para IE/Edge
+    } else if (elemento.msRequestFullscreen) {
         elemento.msRequestFullscreen();
     }
 
-    this.style.display = 'none';
+    botao.style.display = 'none'; // Oculta o botão ao entrar em tela cheia
 });
+
+// Adiciona um ouvinte para detectar quando sai do modo tela cheia
+document.addEventListener('fullscreenchange', function () {
+    if (!document.fullscreenElement) {
+        botao.style.display = 'block'; // Mostra o botão ao sair do modo tela cheia
+    }
+});
+
+// Para navegadores WebKit (Chrome, Safari)
+document.addEventListener('webkitfullscreenchange', function () {
+    if (!document.webkitFullscreenElement) {
+        botao.style.display = 'block';
+    }
+});
+
+// Para Firefox (Mozilla)
+document.addEventListener('mozfullscreenchange', function () {
+    if (!document.mozFullScreenElement) {
+        botao.style.display = 'block';
+    }
+});
+
+// Para Internet Explorer/Edge
+document.addEventListener('MSFullscreenChange', function () {
+    if (!document.msFullscreenElement) {
+        botao.style.display = 'block';
+    }
+});
+
+
+
 
 // Variável para armazenar os dados do CSV após carregado
 let dadosCsv = [];

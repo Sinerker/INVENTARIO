@@ -1,25 +1,25 @@
 /* Estilos gerais */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #1a1a1d; /* Fundo escuro para dar contraste */
-    color: #e0e0e0; /* Cor de texto clara para contraste */
+    margin: 20px;
+    padding: 0px;
+    background-color: #000000; /* Fundo escuro para dar contraste */
+    color: #ffffff; /* Cor de texto clara para contraste */
 }
 
 /* Estilos para o título */
 h1 {
     text-align: center;
-    color: #ffffff; /* Azul elétrico vibrante */
+    color: #0077ff; /* Azul elétrico vibrante */
     font-size: 24px; /* Reduzido para telas pequenas */
-    margin-bottom: 12px;
+    margin-bottom: 5px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 /* Estilos para os grupos de formulário */
 .form-group {
-    margin-bottom: 8px; /* Menor margem */
+    margin: 5px; /* Menor margem */
 }
 
 /* Estilos para os campos de entrada */
@@ -27,26 +27,28 @@ input[type="text"], input[type="number"] {
     width: 100%;
     padding: 8px;
     font-size: 14px; /* Fonte reduzida */
-    margin-top: 6px;
+    margin-top: 2px;
     border: 1px solid #2a2a2d; /* Borda escura */
     border-radius: 8px;
     background-color: #333333; /* Fundo de campo mais escuro */
-    color: #e0e0e0; /* Texto claro */
+    color: #ffffff; /* Texto claro */
 }
 
 input[type="text"]:focus, input[type="number"]:focus {
     border-color: #00f2fe; /* Cor neon ao focar */
     outline: none;
-    box-shadow: 0 0 5px #00f2fe; /* Brilho no foco */
+    box-shadow: 0 0 5px #ffffff; /* Brilho no foco */
 }
 
 /* Estilos para o botão */
 button {
-    background-color: #9b4dff; /* Roxo futurista */
-    color: #fff;
-    font-size: 12px; /* Menor tamanho */
+    margin-top: 10px;
+    width: 100%;
+    background-color: #000000; /* Roxo futurista */
+    color: #ff0000;
+    font-size: 14px; /* Menor tamanho */
     padding: 12px 18px;
-    border: none;
+    border: 1px solid #ffffff;
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -54,15 +56,16 @@ button {
 }
 
 button:hover {
-    background-color: #7700c2; /* Roxo mais escuro */
+    background-color: #ffffff; /* Roxo mais escuro */
+    color: #000000;
     transform: scale(1.05);
 }
 
 /* Estilo para a mensagem de confirmação */
 #mensagemConfirmacao {
-    margin: 10px;
-    padding: 12px;
-    background-color: #00f2fe;
+    margin: 5px;
+    padding: 2px;
+    background-color: #ffffff;
     color: black;
     font-weight: bold;
     border-radius: 8px;
@@ -72,15 +75,15 @@ button:hover {
 
 /* Exibir os dados do produto encontrado */
 #infoProduto {
-    margin: 10px;
+    margin: 5px;
     padding: 8px;
     background-color: #2a2a2d;
-    border: 1px solid #444444;
+    border: 1px solid #05d1c7;
     border-radius: 8px;
 }
 
 #detalhesProduto {
-    font-size: 12px;
+    font-size: 15px;
     color: #e0e0e0;
 }
 
@@ -99,13 +102,14 @@ button:hover {
 
 /* Estilos para a lista de produtos encontrados */
 #listaProdutosEncontrados {
-    margin-top: 12px;
+    margin-top: 2px;
 }
 
 #listaProdutos {
     list-style: none;
     padding: 0;
     margin: 0;
+    
 }
 
 #listaProdutos li {
