@@ -19,7 +19,8 @@ h1 {
 
 /* Estilos para os grupos de formulário */
 .form-group {
-    margin: 5px; /* Menor margem */
+    width: 99%;
+    margin: 2px; /* Menor margem */
 }
 
 /* Estilos para os campos de entrada */
@@ -131,14 +132,11 @@ button:hover {
 #botaoTelaCheia {
     background-color: #ff4040; /* Rosa neon */
     color: white;
-    font-size: 14px; /* Menor tamanho de fonte */
-    padding: 10px 20px;
+    font-size: 12px; /* Menor tamanho de fonte */
     border-radius: 8px;
     cursor: pointer;
     border: none;
     display: block;
-    margin: 0 auto;
-    margin-top: 15px;
     transition: background-color 0.3s ease;
 }
 
