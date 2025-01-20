@@ -43,13 +43,14 @@ input[type="text"]:focus, input[type="number"]:focus {
 
 /* Estilos para o botão */
 button {
-    margin-top: 10px;
+    margin-top: 20px;
     width: 100%;
-    background-color: #000000; /* Roxo futurista */
-    color: #ff0000;
+    background-color: #1a1a1a; /* Roxo futurista */
+    color: #ec2121;
+    font-weight: 600;
     font-size: 14px; /* Menor tamanho */
     padding: 12px 18px;
-    border: 1px solid #ffffff;
+    border: 2px solid #ffffff;
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -57,16 +58,16 @@ button {
 }
 
 button:hover {
-    background-color: #ffffff; /* Roxo mais escuro */
-    color: #000000;
+    background-color: #1a1a1a;
+    color: #ec2121;
     transform: scale(1.05);
 }
 
 /* Estilo para a mensagem de confirmação */
 #mensagemConfirmacao {
-    margin: 5px;
+    margin-top: 10px;
     padding: 2px;
-    background-color: #ffffff;
+    background-color: #11f6f2;
     color: black;
     font-weight: bold;
     border-radius: 8px;
