@@ -53,7 +53,9 @@ let inventario = []; // Inventário sem salvar no localStorage
 let quantidadesPorProduto = {}; // Armazenar as quantidades totais por produto
 
 // Função para carregar o arquivo CSV sem interação do usuário
-window.addEventListener('load', function () {
+window.addEventListener('DOMContentLoaded', function () {
+    // Garantir que o código só será executado após o carregamento completo do DOM
+
     const caminhoArquivo = 'dados.csv';  // Caminho relativo do arquivo CSV (mesmo diretório)
 
     fetch(caminhoArquivo)
@@ -69,10 +71,22 @@ window.addEventListener('load', function () {
 
             // Aqui você pode manipular os dados como desejar
             console.log(dadosCsv);  // Exemplo de exibição dos dados no console
-            // Após carregar os dados, você pode continuar o processamento do seu inventário
-            document.getElementById('mensagemUpload').style.display = 'block';  // Exibe mensagem de sucesso
-            document.getElementById('titulo').style.display = 'none';  // Esconde título
-            document.getElementById('uploadArquivo').style.display = 'none';  // Esconde o botão de upload
+
+            // Verifica se o elemento 'mensagemUpload' existe
+            const mensagemUpload = document.getElementById('mensagemUpload');
+            if (mensagemUpload) {
+                mensagemUpload.style.display = 'block';  // Exibe mensagem de sucesso
+            }
+
+            const titulo = document.getElementById('titulo');
+            if (titulo) {
+                titulo.style.display = 'none';  // Esconde título
+            }
+
+            const uploadArquivo = document.getElementById('uploadArquivo');
+            if (uploadArquivo) {
+                uploadArquivo.style.display = 'none';  // Esconde o botão de upload
+            }
         })
         .catch(error => {
             console.error('Erro ao carregar o arquivo:', error);
