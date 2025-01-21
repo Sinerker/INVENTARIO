@@ -290,3 +290,18 @@ function salvarInventario() {
         alert('Download cancelado!');
     }
 }
+
+function evitarTeclado(event) {
+    // Previne a exibição do teclado
+    event.preventDefault();
+    
+    // Foca em um elemento que não cause a abertura do teclado (como um <div> ou <span>)
+    let temp = document.createElement('input');
+    document.body.appendChild(temp);
+    temp.focus();
+    document.body.removeChild(temp);
+
+    // Agora você pode digitar no campo sem abrir o teclado
+    // Adicione a lógica de manipulação do texto conforme necessário
+    event.target.focus();
+  }
