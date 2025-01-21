@@ -142,22 +142,27 @@ document.getElementById('codigoBarras').addEventListener('keydown', function (ev
             // Se o produto for encontrado pelo código, exibe os detalhes
             mostrarDetalhesDoProduto(produtoEncontrado);
         } else {
-            // Se não encontrar pelo código, buscar pelo nome
-            const nomeProdutosEncontrados = dadosCsv.filter(linha => {
-                if (!linha[1]) return false; // Se o nome do produto não existir, ignora.
-                
-                const nomeProduto = linha[1].trim().toLowerCase(); // Nome do produto no CSV.
-                const palavrasPesquisa = pesquisa.toLowerCase().split(/\s+/); // Palavras da pesquisa.
-                
-                // Verifica se todas as palavras de pesquisa estão presentes no nome do produto.
-                return palavrasPesquisa.every(palavra => nomeProduto.includes(palavra));
-            });
+            if (isNaN(produtoEncontrado)) {
+                // Se não for um número válido (não encontrar pelo código), buscar pelo nome
+                const nomeProdutosEncontrados = dadosCsv.filter(linha => {
+                    if (!linha[1]) return false; // Se o nome do produto não existir, ignora.
             
-            if (nomeProdutosEncontrados.length > 0) {
-                exibirListaDeProdutos(nomeProdutosEncontrados);
-            } else {
-                // Se não encontrar pelo nome ou código
-                document.getElementById('infoProduto').style.display = 'none';
+                    const nomeProduto = linha[1].trim().toLowerCase(); // Nome do produto no CSV.
+                    const palavrasPesquisa = pesquisa.toLowerCase().split(/\s+/).filter(palavra => isNaN(palavra) && palavra.trim() !== ""); // Palavras da pesquisa.
+            
+                    // Verifica se todas as palavras de pesquisa estão presentes no nome do produto.
+                    // Se palavras de pesquisa estiverem vazias, não realiza a busca.
+                    if (palavrasPesquisa.length === 0) return false;
+            
+                    return palavrasPesquisa.every(palavra => nomeProduto.includes(palavra));
+                });
+            
+                if (nomeProdutosEncontrados.length > 0) {
+                    exibirListaDeProdutos(nomeProdutosEncontrados);
+                } else {
+                    // Se não encontrar pelo nome ou código
+                    document.getElementById('infoProduto').style.display = 'none';
+                }
             }
         }
     }
