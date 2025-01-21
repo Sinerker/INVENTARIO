@@ -16,42 +16,12 @@ botao.addEventListener('click', function () {
     botao.style.display = 'none'; // Oculta o botão ao entrar em tela cheia
 });
 
-// Adiciona um ouvinte para detectar quando sai do modo tela cheia
-document.addEventListener('fullscreenchange', function () {
-    if (!document.fullscreenElement) {
-        botao.style.display = 'block'; // Mostra o botão ao sair do modo tela cheia
-    }
-});
-
-// Para navegadores WebKit (Chrome, Safari)
-document.addEventListener('webkitfullscreenchange', function () {
-    if (!document.webkitFullscreenElement) {
-        botao.style.display = 'block';
-    }
-});
-
-// Para Firefox (Mozilla)
-document.addEventListener('mozfullscreenchange', function () {
-    if (!document.mozFullScreenElement) {
-        botao.style.display = 'block';
-    }
-});
-
-// Para Internet Explorer/Edge
-document.addEventListener('MSFullscreenChange', function () {
-    if (!document.msFullscreenElement) {
-        botao.style.display = 'block';
-    }
-});
-
-
-
-
 // Variável para armazenar os dados do CSV após carregado
 let dadosCsv = [];
 let inventario = []; // Inventário sem salvar no localStorage
 let quantidadesPorProduto = {}; // Armazenar as quantidades totais por produto
 
+// Carregar o arquivo CSV diretamente do GitHub Pages
 const arquivoCsvUrl = 'https://1drv.ms/x/c/d14dd3e417eec137/EZKqbjEGFoVIoa06RjjqTg4Bd-crDEY1tubnr4vM91RvUg?e=NxTODP';  // Substitua com o caminho correto do seu arquivo CSV no GitHub
 
 fetch(arquivoCsvUrl)
@@ -69,8 +39,6 @@ fetch(arquivoCsvUrl)
     .catch(error => {
         console.error('Erro ao carregar o arquivo CSV:', error);
     });
-
-
 
 // Função para exibir os produtos encontrados na lista
 function exibirListaDeProdutos(produtos) {
@@ -203,90 +171,15 @@ document.getElementById('quantidade').addEventListener('keydown', function (even
         // Exibe a confirmação
         document.getElementById('mensagemConfirmacao').style.display = 'block';
 
-        // Limpa os campos "local" e "quantidade" para continuar o inventário
+        // Limpa os campos "local" e "quantidade"
+        document.getElementById('local').value = '';
         document.getElementById('quantidade').value = '';
-        document.getElementById('codigoBarras').value = '';
-        document.getElementById('detalhesProduto').textContent = 'Nenhum produto encontrado.';
-        document.getElementById('infoProduto').style.display = 'none';
 
-        // Coloca o foco de volta no campo de código de barras
-        document.getElementById('codigoBarras').focus();
+        // Se quiser salvar os dados no LocalStorage ou no servidor, você pode fazer isso aqui.
     }
 });
 
-// Função para gerar e baixar o arquivo CSV com os dados do inventário
+// Salvamento do inventário
 document.getElementById('botaoSalvarFinal').addEventListener('click', function () {
-    if (inventario.length === 0) {
-        alert('Nenhum dado de inventário foi registrado.');
-        return;
-    }
-
-    const confirmacao = confirm('Você tem certeza que deseja salvar o inventário?');
-
-    if (confirmacao) {
-        const cabecalho = ['Usuario', 'Produto', 'Local', 'Quantidade'];
-        let conteudoCsv = cabecalho.join(';') + '\n';
-
-        inventario.forEach(item => {
-            const itemComVirgula = item.replace('.', ',');
-            conteudoCsv += `${itemComVirgula}\n`;
-        });
-
-        // Cria um Blob com a codificação UTF-8
-        const blob = new Blob([conteudoCsv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'inventario.csv';
-        link.click();
-
-        alert('Inventário salvo com sucesso!');
-    } else {
-        alert('Download cancelado!');
-    }
+    localStorage.setItem('inventario', JSON.stringify(inventario));
 });
-
-// Forçar o salvamento dos dados antes de fechar ou recarregar a página
-window.addEventListener('beforeunload', function (event) {
-    if (inventario.length > 0) {
-        // Impede a página de ser fechada ou recarregada imediatamente
-        event.preventDefault();
-        event.returnValue = ''; // Exibe uma mensagem de confirmação (depende do navegador)
-
-        // Chama a função de salvar o inventário
-        salvarInventario();
-    }
-});
-
-// Função para gerar e baixar o arquivo CSV com os dados do inventário
-function salvarInventario() {
-    if (inventario.length === 0) {
-        alert('Nenhum dado de inventário foi registrado.');
-        return;
-    }
-
-    const confirmacao = confirm('Você tem certeza que deseja salvar o inventário?');
-
-    if (confirmacao) {
-        const cabecalho = ['Usuario', 'Produto', 'Local', 'Quantidade'];
-        let conteudoCsv = cabecalho.join(';') + '\n';
-
-        inventario.forEach(item => {
-            const itemComVirgula = item.replace('.', ',');
-            conteudoCsv += `${itemComVirgula}\n`;
-        });
-
-        // Cria um Blob com a codificação UTF-8
-        const blob = new Blob([conteudoCsv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'inventario.csv';
-        link.click();
-
-        alert('Inventário salvo com sucesso!');
-    } else {
-        alert('Download cancelado!');
-    }
-}
-
