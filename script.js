@@ -22,7 +22,7 @@ let inventario = []; // Inventário sem salvar no localStorage
 let quantidadesPorProduto = {}; // Armazenar as quantidades totais por produto
 
 // Carregar o arquivo CSV diretamente do GitHub Pages
-const arquivoCsvUrl = 'https://raw.githubusercontent.com/usuario/repositorio/main/dados.csv';  // Substitua com o caminho correto do seu arquivo CSV no GitHub
+const arquivoCsvUrl = 'https://github.com/Sinerker/INVENTARIO/blob/main/dados.csv';  // Substitua com o caminho correto do seu arquivo CSV no GitHub
 
 fetch(arquivoCsvUrl)
     .then(response => response.text())
