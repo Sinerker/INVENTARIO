@@ -1,124 +1,139 @@
-/* Tema moderno com foco em minimalismo e contraste */
+/* Estilos gerais para o tema relacionado a inventário de estoque */
 body {
     margin: 0;
-    font-family: 'Roboto', sans-serif;
-    background-color: #181818; /* Fundo escuro suave */
-    color: #f5f5f5; /* Texto claro */
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f8; /* Fundo claro e neutro */
+    color: #333; /* Texto escuro para legibilidade */
 }
 
 /* Cabeçalho principal */
 h1 {
+    text-transform: uppercase;
     text-align: center;
-    color: #4db6ac; /* Verde água moderno */
-    font-size: 2.5em;
-    margin-top: 20px;
+    color: #0056b3; /* Azul escuro para destacar o título */
+    font-size: 20PX;
+    margin-top: 5px;
+    font-weight: bold;
 }
 
 /* Estilos para botões */
 button {
     width: 100%;
-    background-color: #282c34; /* Fundo neutro */
-    color: #4db6ac; /* Verde água */
-    border: 2px solid #4db6ac;
-    padding: 10px 20px;
-    font-size: 1em;
-    border-radius: 8px;
+    background-color: #0056b3;
+    color: #ffffff;
+    border: none;
+    padding: 4px;
+    font-size: 14px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-    background-color: #4db6ac;
-    color: #282c34;
+    background-color: #003f7d;
+    transform: scale(1.05);
 }
 
 /* Inputs e labels */
 input[type="text"], input[type="number"], input[type="file"] {
-    background-color: #282c34;
-    color: #f5f5f5;
-    border: 2px solid #4db6ac;
-    padding: 10px;
-    font-size: 1em;
-    border-radius: 8px;
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #cccccc;
+    padding: 3px;
+    font-size:14px;
+    border-radius: 5px;
     width: 100%;
     box-sizing: border-box;
+    margin-top: 1px;
+    
 }
 
 input[type="text"]:focus, input[type="number"]:focus, input[type="file"]:focus {
-    border-color: #80cbc4;
+    border-color: #0056b3;
     outline: none;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+    text-transform: uppercase;
 }
 
 label {
     display: block;
     font-weight: bold;
     margin: 10px 0 5px;
-    color: #b2dfdb;
+    color: #0056b3; /* Azul para destaque */
 }
 
 /* Containers e mensagens */
 .form-group {
-    margin: 20px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 5px;
+    max-width: 98%;
+    /* margin-left: auto;
+    margin-right: auto; */
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #mensagemUpload, #mensagemConfirmacao {
-    background-color: #2e3440;
-    border: 2px solid #4db6ac;
-    color: #a5d6a7; /* Verde claro */
-    padding: 15px;
+    background-color: #e9f5ff;
+    border: 1px solid #b3daff;
+    color: #0056b3;
+    padding: 5px;
     text-align: center;
-    border-radius: 8px;
-    margin-top: 20px;
+    border-radius: 5px;
+    margin-top: 8px;
+    font-weight: bold;
 }
 
 #infoProduto, #listaProdutosEncontrados {
-    background-color: #2e3440;
-    border: 2px solid #4db6ac;
-    color: #f5f5f5;
-    padding: 15px;
-    border-radius: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #19cdd6;
+    color: #333;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
 #listaProdutos li {
+    font-size: 14px;
     list-style: none;
     padding: 10px;
     margin: 5px 0;
-    background-color: #3a3f4b;
-    color: #f5f5f5;
+    background-color: #ffffff;
+    color: #333;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 5px;
     transition: background-color 0.3s ease;
+    border: 1px solid #cccccc;
 }
 
 #listaProdutos li:hover {
-    background-color: #4db6ac;
-    color: #282c34;
+    background-color: #94cbf7;
+    border: 2px solid #19cdd6;
 }
 
 /* Botão de salvar inventário final */
 #botaoSalvarFinal {
     display: block;
-    margin: 20px auto;
-    padding: 15px 30px;
-    background-color: #282c34;
-    color: #4db6ac;
-    border: 2px solid #4db6ac;
-    border-radius: 8px;
-    font-size: 1.2em;
+    margin: 5px;
+    padding: 15px;
+    background-color: #0056b3;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #botaoSalvarFinal:hover {
-    background-color: #4db6ac;
-    color: #282c34;
+    background-color: #003f7d;
+    transform: scale(1.05);
 }
 
 /* Responsividade */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     body {
         font-size: 0.9em;
     }
@@ -130,4 +145,4 @@ label {
     button, input {
         font-size: 0.9em;
     }
-}
+} */
