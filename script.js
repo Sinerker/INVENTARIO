@@ -143,8 +143,16 @@ document.getElementById('codigoBarras').addEventListener('keydown', function (ev
             mostrarDetalhesDoProduto(produtoEncontrado);
         } else {
             // Se não encontrar pelo código, buscar pelo nome
-            const nomeProdutosEncontrados = dadosCsv.filter(linha => linha[1] && linha[1].trim().toLowerCase().includes(pesquisa.toLowerCase()));
-
+            const nomeProdutosEncontrados = dadosCsv.filter(linha => {
+                if (!linha[1]) return false; // Se o nome do produto não existir, ignora.
+                
+                const nomeProduto = linha[1].trim().toLowerCase(); // Nome do produto no CSV.
+                const palavrasPesquisa = pesquisa.toLowerCase().split(/\s+/); // Palavras da pesquisa.
+                
+                // Verifica se todas as palavras de pesquisa estão presentes no nome do produto.
+                return palavrasPesquisa.every(palavra => nomeProduto.includes(palavra));
+            });
+            
             if (nomeProdutosEncontrados.length > 0) {
                 exibirListaDeProdutos(nomeProdutosEncontrados);
             } else {
