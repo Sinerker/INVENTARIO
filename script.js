@@ -52,31 +52,35 @@ let dadosCsv = [];
 let inventario = []; // Inventário sem salvar no localStorage
 let quantidadesPorProduto = {}; // Armazenar as quantidades totais por produto
 
-// Carregar o arquivo CSV
-document.getElementById('uploadArquivo').addEventListener('change', function (e) {
-    var arquivo = e.target.files[0];
-    var leitor = new FileReader();
+// Função para carregar o arquivo CSV sem interação do usuário
+window.addEventListener('load', function () {
+    const caminhoArquivo = 'dados.csv';  // Caminho relativo do arquivo CSV (mesmo diretório)
 
-    leitor.onload = function (evento) {
-        // Extrai o conteúdo do arquivo
-        let conteudo = evento.target.result;
+    fetch(caminhoArquivo)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Falha ao carregar o arquivo.');
+            }
+            return response.text();  // Retorna o conteúdo do arquivo como texto
+        })
+        .then(conteudo => {
+            // Quebra o conteúdo do CSV em linhas e separa por ';'
+            const dadosCsv = conteudo.split('\n').map(linha => linha.split(';'));
 
-        // Quebra o conteúdo do CSV em linhas
-        dadosCsv = conteudo.split('\n').map(linha => linha.split(';'));
-
-        // Exibe a mensagem de sucesso ao carregar o arquivo
-        document.getElementById('mensagemUpload').style.display = 'block';
-
-        // Esconde o título (h1) e o botão de carregar arquivo
-        document.getElementById('titulo').style.display = 'none'; // Supondo que o id do título seja 'titulo'
-        document.getElementById('uploadArquivo').style.display = 'none'; // Supondo que o id do botão de upload seja 'uploadArquivo'
-        document.getElementById('mensagemUpload').style.display = 'none';
-    };
-
-    if (arquivo) {
-        leitor.readAsText(arquivo);
-    }
+            // Aqui você pode manipular os dados como desejar
+            console.log(dadosCsv);  // Exemplo de exibição dos dados no console
+            // Após carregar os dados, você pode continuar o processamento do seu inventário
+            document.getElementById('mensagemUpload').style.display = 'block';  // Exibe mensagem de sucesso
+            document.getElementById('titulo').style.display = 'none';  // Esconde título
+            document.getElementById('uploadArquivo').style.display = 'none';  // Esconde o botão de upload
+        })
+        .catch(error => {
+            console.error('Erro ao carregar o arquivo:', error);
+            alert('Erro ao carregar o arquivo.');
+        });
 });
+
+
 
 // Função para exibir os produtos encontrados na lista
 function exibirListaDeProdutos(produtos) {
