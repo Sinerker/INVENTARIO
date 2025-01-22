@@ -76,14 +76,18 @@ label {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#mensagemUpload{
+
+#mensagemUpload p{
+    text-transform: uppercase;
     background-color: #e9f5ff;
     border: 1px solid #b3daff;
     color: #0056b3;
-    padding: 5px;
+    padding: 5px 0;
     text-align: center;
+    line-height: 30px;
     border-radius: 5px;
-    margin-top: 8px;
+    margin: 0;
+    height: 30px;
     font-weight: bold;
 }
 
@@ -109,16 +113,20 @@ label {
     background-color: #f8f9fa;
     border: 1px solid #19cdd6;
     color: #333;
-    padding: 5px;
+    padding: 05px;
     border-radius: 5px;
-    margin-top: 10px;
+    margin-top: 5px;
+}
+
+ul{
+    padding-inline-start: 5px;
 }
 
 #listaProdutos li {
     font-size: 14px;
     list-style: none;
     padding: 10px;
-    margin: 5px 0;
+    margin: 0px;
     background-color: #ffffff;
     color: #333;
     cursor: pointer;
@@ -128,7 +136,7 @@ label {
 }
 
 #listaProdutos li:hover {
-    background-color: #94cbf7;
+    background-color: #ffffff;
     border: 2px solid #19cdd6;
 }
 
