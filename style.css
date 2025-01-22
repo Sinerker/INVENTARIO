@@ -5,6 +5,7 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f6f8; /* Fundo claro e neutro */
     color: #333; /* Texto escuro para legibilidade */
+    height: 900px;
 }
 
 /* Cabeçalho principal */
@@ -46,11 +47,11 @@ input[type="text"], input[type="number"], input[type="file"] {
     width: 100%;
     box-sizing: border-box;
     margin-top: 1px;
-    
+    text-transform: uppercase;    
 }
 
 input[type="text"]:focus, input[type="number"]:focus, input[type="file"]:focus {
-    border-color: #0056b3;
+    border:2px solid #00b300;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
     text-transform: uppercase;
@@ -75,7 +76,7 @@ label {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#mensagemUpload, #mensagemConfirmacao {
+#mensagemUpload{
     background-color: #e9f5ff;
     border: 1px solid #b3daff;
     color: #0056b3;
@@ -84,6 +85,24 @@ label {
     border-radius: 5px;
     margin-top: 8px;
     font-weight: bold;
+}
+
+#mensagemConfirmacao {
+    margin-left: 10%;
+    margin-right: 10%;
+    
+    -webkit-text-stroke-width: 0.0px;
+    -webkit-text-stroke-color: #333;
+    font-weight: bold;
+    background-color: #2f8703;
+    border: 1px solid #e9f5ff;
+    color: #ffffff;
+    padding: 5px;
+    text-align: center;
+    border-radius: 15px;
+    margin-top: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 #infoProduto, #listaProdutosEncontrados {

@@ -92,6 +92,8 @@ function exibirListaDeProdutos(produtos) {
         // Adiciona um evento de clique para mostrar detalhes do produto
         itemLista.addEventListener('click', () => {
             mostrarDetalhesDoProduto(produto);
+            let detalhes=getElementById('infoProduto');
+            detalhes.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Rolagem suave
         });
 
         listaProdutos.appendChild(itemLista);
@@ -120,6 +122,7 @@ function mostrarDetalhesDoProduto(produto) {
 // Procurar o código ou nome do produto e exibir as informações quando "Enter" for pressionado
 document.getElementById('codigoBarras').addEventListener('keydown', function (evento) {
     if (evento.keyCode === 13) {  // Se "Enter" for pressionado
+        document.getElementById('mensagemConfirmacao').style.display = 'none';
         const pesquisa = this.value.trim();
 
         if (!pesquisa) {
@@ -133,6 +136,7 @@ document.getElementById('codigoBarras').addEventListener('keydown', function (ev
         produtoEncontrado = dadosCsv.find(linha => linha[3] && linha[3].trim() === pesquisa);
 
         if (produtoEncontrado) {
+            quantidade.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Rolagem suave
             // Se o produto for encontrado pelo código, exibe os detalhes
             mostrarDetalhesDoProduto(produtoEncontrado);
         } else {
@@ -140,17 +144,17 @@ document.getElementById('codigoBarras').addEventListener('keydown', function (ev
                 // Se não for um número válido (não encontrar pelo código), buscar pelo nome
                 const nomeProdutosEncontrados = dadosCsv.filter(linha => {
                     if (!linha[1]) return false; // Se o nome do produto não existir, ignora.
-            
+
                     const nomeProduto = linha[1].trim().toLowerCase(); // Nome do produto no CSV.
                     const palavrasPesquisa = pesquisa.toLowerCase().split(/\s+/).filter(palavra => isNaN(palavra) && palavra.trim() !== ""); // Palavras da pesquisa.
-            
+
                     // Verifica se todas as palavras de pesquisa estão presentes no nome do produto.
                     // Se palavras de pesquisa estiverem vazias, não realiza a busca.
                     if (palavrasPesquisa.length === 0) return false;
-            
+
                     return palavrasPesquisa.every(palavra => nomeProduto.includes(palavra));
                 });
-            
+
                 if (nomeProdutosEncontrados.length > 0) {
                     exibirListaDeProdutos(nomeProdutosEncontrados);
                 } else {
@@ -165,6 +169,7 @@ document.getElementById('codigoBarras').addEventListener('keydown', function (ev
 // Salvar os dados do produto no inventário quando a tecla "Enter" for pressionada no campo "quantidade"
 document.getElementById('quantidade').addEventListener('keydown', function (evento) {
     if (evento.keyCode === 13) {
+
         const local = document.getElementById('local').value.trim();
         let quantidade = this.value.trim();
 
@@ -290,3 +295,32 @@ function salvarInventario() {
     }
 }
 
+
+const usuarioInput = document.getElementById('usuario');
+        const localInput = document.getElementById('local');
+        const codigoBarrasInput = document.getElementById('codigoBarras');
+
+        // Configura o evento para o input "usuario"
+        usuarioInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Evita o comportamento padrão
+                localInput.focus(); // Foca no input "local"
+                localInput.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Rolagem suave
+            }
+        });
+
+        // Configura o evento para o input "local"
+        localInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Evita o comportamento padrão
+                codigoBarrasInput.focus(); // Foca no input "codigoBarras"
+                codigoBarrasInput.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Rolagem suave
+            }
+        });
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const inputFoco = document.getElementById('usuario'); // Seleciona o input pelo ID
+    inputFoco.focus(); // Aplica o foco
+});
