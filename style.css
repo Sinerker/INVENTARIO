@@ -173,3 +173,14 @@ ul{
         font-size: 0.9em;
     }
 } */
+
+.linha {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaço entre o label e o input */
+}
+
+.linha label {
+    width: 100px; /* Define uma largura fixa para os labels */
+    text-align: left; /* Alinha o texto à direita */
+}
