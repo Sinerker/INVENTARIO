@@ -55,6 +55,7 @@ let quantidadesPorProduto = {}; // Armazenar as quantidades totais por produto
 const arquivoCsvUrl = 'https://raw.githubusercontent.com/Sinerker/INVENTARIO/main/dados.csv';  // Substitua com o caminho correto do seu arquivo CSV no GitHub
 
 fetch(arquivoCsvUrl)
+// fetch('dados.csv')
     .then(response => response.text())
     .then(conteudo => {
         // Processa o conteúdo do CSV
@@ -70,8 +71,33 @@ fetch(arquivoCsvUrl)
         console.error('Erro ao carregar o arquivo CSV:', error);
     });
 
+function salvarNoLocalStorage() {
+    localStorage.setItem('inventario', JSON.stringify(inventario));
+    localStorage.setItem('quantidadesPorProduto', JSON.stringify(quantidadesPorProduto));
+}
 
 
+
+function carregarDoLocalStorage() {
+    const inventarioSalvo = localStorage.getItem('inventario');
+    const quantidadesSalvas = localStorage.getItem('quantidadesPorProduto');
+
+    if (inventarioSalvo) {
+        inventario = JSON.parse(inventarioSalvo);
+    }
+
+    if (quantidadesSalvas) {
+        quantidadesPorProduto = JSON.parse(quantidadesSalvas);
+    }
+}
+
+// Chamar essa função ao carregar a página
+document.addEventListener('DOMContentLoaded', carregarDoLocalStorage);
+
+
+
+
+    
 // Função para exibir os produtos encontrados na lista
 function exibirListaDeProdutos(produtos) {
     const listaProdutos = document.getElementById('listaProdutos');
@@ -194,6 +220,7 @@ document.getElementById('quantidade').addEventListener('keydown', function (even
 
         // Adiciona a linha ao inventário
         inventario.push(linhaProduto);
+        salvarNoLocalStorage();
 
         // Extrair o código de barras (produto chave)
         const produtoChave = produtoDetalhes.split(' | ')[3].trim(); // Pega o código de barras da string de detalhes
@@ -323,4 +350,15 @@ const usuarioInput = document.getElementById('usuario');
 document.addEventListener('DOMContentLoaded', () => {
     const inputFoco = document.getElementById('usuario'); // Seleciona o input pelo ID
     inputFoco.focus(); // Aplica o foco
+});
+
+function limparLocalStorage() {
+    localStorage.removeItem('inventario');
+    localStorage.removeItem('quantidadesPorProduto');
+}
+
+// Chame essa função após o download do CSV
+document.getElementById('botaoSalvarFinal').addEventListener('click', function () {
+    // (Seu código atual de salvar o CSV aqui...)
+    limparLocalStorage(); // Remove os dados salvos no localStorage
 });
