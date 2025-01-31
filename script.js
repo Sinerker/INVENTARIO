@@ -1,8 +1,7 @@
 const botao = document.getElementById('botaoTelaCheia');
 
 botao.addEventListener('click', function () {
-    const elemento = document.documentElement; // Define o elemento a ser exibido em tela cheia
-
+    const elemento = document.documentElement;
     if (elemento.requestFullscreen) {
         elemento.requestFullscreen();
     } else if (elemento.webkitRequestFullscreen) {
@@ -12,123 +11,79 @@ botao.addEventListener('click', function () {
     } else if (elemento.msRequestFullscreen) {
         elemento.msRequestFullscreen();
     }
-
-    botao.style.display = 'none'; // Oculta o botão ao entrar em tela cheia
+    botao.style.display = 'none';
 });
 
-// Adiciona um ouvinte para detectar quando sai do modo tela cheia
-document.addEventListener('fullscreenchange', function () {
+document.addEventListener('fullscreenchange', () => {
     if (!document.fullscreenElement) {
-        botao.style.display = 'block'; // Mostra o botão ao sair do modo tela cheia
-    }
-});
-
-// Para navegadores WebKit (Chrome, Safari)
-document.addEventListener('webkitfullscreenchange', function () {
-    if (!document.webkitFullscreenElement) {
         botao.style.display = 'block';
     }
 });
 
-// Para Firefox (Mozilla)
-document.addEventListener('mozfullscreenchange', function () {
-    if (!document.mozFullScreenElement) {
-        botao.style.display = 'block';
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('usuario').focus();
+    carregarDadosCsv();
 });
 
-// Para Internet Explorer/Edge
-document.addEventListener('MSFullscreenChange', function () {
-    if (!document.msFullscreenElement) {
-        botao.style.display = 'block';
-    }
-});
-
-
-
-
-// Variável para armazenar os dados do CSV após carregado
 let dadosCsv = [];
-let inventario = []; // Inventário sem salvar no localStorage
-let quantidadesPorProduto = {}; // Armazenar as quantidades totais por produto
+let inventario = [];
+let quantidadesPorProduto = {};
+const arquivoCsvUrl = 'https://raw.githubusercontent.com/Sinerker/INVENTARIO/main/dados.csv';
 
-const arquivoCsvUrl = 'https://raw.githubusercontent.com/Sinerker/INVENTARIO/main/dados.csv';  // Substitua com o caminho correto do seu arquivo CSV no GitHub
-
-fetch(arquivoCsvUrl)
-// fetch('dados.csv')
-    .then(response => response.text())
-    .then(conteudo => {
-        // Processa o conteúdo do CSV
-        dadosCsv = conteudo.split('\n').map(linha => linha.split(';'));
-
-        // Exibe a mensagem de sucesso ao carregar o arquivo
-        document.getElementById('mensagemUpload').style.display = 'block';
-
-        // Esconde o título e o botão de upload já que o arquivo foi carregado automaticamente
-        document.getElementById('titulo').style.display = 'none';
-    })
-    .catch(error => {
-        console.error('Erro ao carregar o arquivo CSV:', error);
-    });
-
-function salvarNoLocalStorage() {
-    localStorage.setItem('inventario', JSON.stringify(inventario));
-    localStorage.setItem('quantidadesPorProduto', JSON.stringify(quantidadesPorProduto));
+function carregarDadosCsv() {
+    fetch(arquivoCsvUrl)
+        .then(response => response.text())
+        .then(conteudo => {
+            dadosCsv = conteudo.split('\n').map(linha => linha.split(';'));
+            document.getElementById('mensagemUpload').style.display = 'block';
+            document.getElementById('titulo').style.display = 'none';
+        })
+        .catch(error => console.error('Erro ao carregar o arquivo CSV:', error));
 }
 
 
 
-function carregarDoLocalStorage() {
-    const inventarioSalvo = localStorage.getItem('inventario');
-    const quantidadesSalvas = localStorage.getItem('quantidadesPorProduto');
-
-    if (inventarioSalvo) {
-        inventario = JSON.parse(inventarioSalvo);
-    }
-
-    if (quantidadesSalvas) {
-        quantidadesPorProduto = JSON.parse(quantidadesSalvas);
-    }
-}
-
-// Chamar essa função ao carregar a página
-document.addEventListener('DOMContentLoaded', carregarDoLocalStorage);
 
 
 
-
-    
-// Função para exibir os produtos encontrados na lista
 function exibirListaDeProdutos(produtos) {
     const listaProdutos = document.getElementById('listaProdutos');
-    listaProdutos.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
+    listaProdutos.innerHTML = '';
 
-    // Se não houver produtos encontrados, exibe a mensagem apropriada
     if (produtos.length === 0) {
         document.getElementById('listaProdutosEncontrados').style.display = 'none';
         document.getElementById('detalhesProduto').textContent = 'Nenhum produto encontrado.';
         return;
     }
 
-    // Exibe a lista de produtos encontrados
-    produtos.forEach((produto, index) => {
+    produtos.forEach(produto => {
         const itemLista = document.createElement('li');
-        itemLista.textContent = produto[1]; // Exibe o nome do produto (na segunda coluna)
 
-        // Adiciona um evento de clique para mostrar detalhes do produto
-        itemLista.addEventListener('click', () => {
-            mostrarDetalhesDoProduto(produto);
-            let detalhes=getElementById('infoProduto');
-            detalhes.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Rolagem suave
-        });
+        // Montando a string com mais informações do produto
+        const codigo = produto[0] ? produto[0].trim() : 'Sem código';
+        const descricao = produto[1] ? produto[1].trim() : 'Sem descrição';
+        const embalagem = produto[2] ? produto[2].trim() : 'Sem embalagem';
+        const codigoBarras = produto[3] ? produto[3].trim() : 'Sem código de barras';
 
+        itemLista.innerHTML = `<strong>${codigo}</strong> - ${descricao} | ${embalagem} | <em>${codigoBarras}</em>`;
+        
+        // Evento de clique para selecionar o produto e exibir os detalhes completos
+        itemLista.addEventListener('click', () => mostrarDetalhesDoProduto(produto));
+        
         listaProdutos.appendChild(itemLista);
     });
 
     document.getElementById('listaProdutosEncontrados').style.display = 'block';
 }
 
-// Função para exibir os detalhes de um produto
+
+
+
+
+
+
+
+
 function mostrarDetalhesDoProduto(produto) {
     document.getElementById('detalhesProduto').textContent = produto.join(' | ');
     document.getElementById('infoProduto').style.display = 'block';
@@ -144,6 +99,7 @@ function mostrarDetalhesDoProduto(produto) {
     // Esconde a lista de produtos encontrados após selecionar um item
     document.getElementById('listaProdutosEncontrados').style.display = 'none';
 }
+
 
 // Procurar o código ou nome do produto e exibir as informações quando "Enter" for pressionado
 document.getElementById('codigoBarras').addEventListener('keydown', function (evento) {
@@ -192,173 +148,185 @@ document.getElementById('codigoBarras').addEventListener('keydown', function (ev
     }
 });
 
-// Salvar os dados do produto no inventário quando a tecla "Enter" for pressionada no campo "quantidade"
+
 document.getElementById('quantidade').addEventListener('keydown', function (evento) {
     if (evento.keyCode === 13) {
-
         const local = document.getElementById('local').value.trim();
-        let quantidade = this.value.trim();
-
-        // Verifica se a quantidade é um número (float ou inteiro)
-        quantidade = parseFloat(quantidade);
-
+        let quantidade = parseFloat(this.value.trim());
         if (isNaN(quantidade)) {
             alert('Por favor, insira uma quantidade válida.');
             return;
         }
-
         const produtoDetalhes = document.getElementById('detalhesProduto').textContent.trim();
         const usuario = document.getElementById('usuario').value.trim();
-
         if (!local || produtoDetalhes === 'Nenhum produto encontrado.') {
             alert('Por favor, preencha todos os campos corretamente.');
             return;
         }
-
-        // Cria a linha com todos os dados concatenados corretamente
-        const linhaProduto = `${usuario};${produtoDetalhes};${local};${quantidade}`;
-
-        // Adiciona a linha ao inventário
-        inventario.push(linhaProduto);
-        salvarNoLocalStorage();
-
-        // Extrair o código de barras (produto chave)
-        const produtoChave = produtoDetalhes.split(' | ')[3].trim(); // Pega o código de barras da string de detalhes
-
-        // Atualiza a quantidade total para aquele produto
-        if (quantidadesPorProduto[produtoChave]) {
-            quantidadesPorProduto[produtoChave] += quantidade;
-        } else {
-            quantidadesPorProduto[produtoChave] = quantidade;
-        }
-
-        // Exibe a confirmação
+        inventario.push(`${usuario};${produtoDetalhes};${local};${quantidade}`);
         document.getElementById('mensagemConfirmacao').style.display = 'block';
-
-        // Limpa os campos "local" e "quantidade" para continuar o inventário
         document.getElementById('quantidade').value = '';
         document.getElementById('codigoBarras').value = '';
         document.getElementById('detalhesProduto').textContent = 'Nenhum produto encontrado.';
         document.getElementById('infoProduto').style.display = 'none';
-
-        // Coloca o foco de volta no campo de código de barras
         document.getElementById('codigoBarras').focus();
     }
 });
 
-// Função para gerar e baixar o arquivo CSV com os dados do inventário
 document.getElementById('botaoSalvarFinal').addEventListener('click', function () {
     if (inventario.length === 0) {
         alert('Nenhum dado de inventário foi registrado.');
         return;
     }
-
     const confirmacao = confirm('Você tem certeza que deseja salvar o inventário?');
-
     if (confirmacao) {
         const cabecalho = ['Usuario', 'Produto', 'Local', 'Quantidade'];
-        let conteudoCsv = cabecalho.join(';') + '\n';
-
-        inventario.forEach(item => {
-            const itemComVirgula = item.replace('.', ',');
-            conteudoCsv += `${itemComVirgula}\n`;
-        });
-
-        // Cria um Blob com a codificação UTF-8
+        let conteudoCsv = cabecalho.join(';') + '\n' + inventario.join('\n');
         const blob = new Blob([conteudoCsv], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
         link.download = 'inventario.csv';
         link.click();
-
         alert('Inventário salvo com sucesso!');
-    } else {
-        alert('Download cancelado!');
+        inventario = [];
     }
 });
 
-// Forçar o salvamento dos dados antes de fechar ou recarregar a página
-window.addEventListener('beforeunload', function (event) {
-    if (inventario.length > 0) {
-        // Impede a página de ser fechada ou recarregada imediatamente
+document.getElementById('usuario').addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
         event.preventDefault();
-        event.returnValue = ''; // Exibe uma mensagem de confirmação (depende do navegador)
-
-        // Chama a função de salvar o inventário
-        salvarInventario();
+        document.getElementById('local').focus();
     }
 });
 
-// Função para gerar e baixar o arquivo CSV com os dados do inventário
-function salvarInventario() {
-    if (inventario.length === 0) {
-        alert('Nenhum dado de inventário foi registrado.');
-        return;
+document.getElementById('local').addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        document.getElementById('codigoBarras').focus();
     }
+});
 
-    const confirmacao = confirm('Você tem certeza que deseja salvar o inventário?');
 
-    if (confirmacao) {
-        const cabecalho = ['Usuario', 'Produto', 'Local', 'Quantidade'];
-        let conteudoCsv = cabecalho.join(';') + '\n';
+document.getElementById('botaoLimpar').addEventListener('click', function () {
+    limparCampos();
+});
 
-        inventario.forEach(item => {
-            const itemComVirgula = item.replace('.', ',');
-            conteudoCsv += `${itemComVirgula}\n`;
-        });
-
-        // Cria um Blob com a codificação UTF-8
-        const blob = new Blob([conteudoCsv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'inventario.csv';
-        link.click();
-
-        alert('Inventário salvo com sucesso!');
-    } else {
-        alert('Download cancelado!');
-    }
+function limparCampos() {
+    document.getElementById('codigoBarras').value = '';
+    document.getElementById('quantidade').value = '';
+    document.getElementById('detalhesProduto').textContent = 'Nenhum produto encontrado.';
+    document.getElementById('infoProduto').style.display = 'none';
+    document.getElementById('codigoBarras').focus();
 }
 
 
-const usuarioInput = document.getElementById('usuario');
-        const localInput = document.getElementById('local');
-        const codigoBarrasInput = document.getElementById('codigoBarras');
 
-        // Configura o evento para o input "usuario"
-        usuarioInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Evita o comportamento padrão
-                localInput.focus(); // Foca no input "local"
-                localInput.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Rolagem suave
+
+
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+const DB_NAME = 'InventarioDB';
+const DB_VERSION = 1;
+const STORE_NAME = 'inventario';
+
+let db;
+
+// Abrir ou criar o banco de dados IndexedDB
+function abrirBanco() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        
+        request.onupgradeneeded = function (event) {
+            let db = event.target.result;
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+                db.createObjectStore(STORE_NAME, { keyPath: 'codigo' });
             }
-        });
+        };
 
-        // Configura o evento para o input "local"
-        localInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Evita o comportamento padrão
-                codigoBarrasInput.focus(); // Foca no input "codigoBarras"
-                codigoBarrasInput.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Rolagem suave
-            }
-        });
+        request.onsuccess = function (event) {
+            db = event.target.result;
+            resolve();
+        };
 
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const inputFoco = document.getElementById('usuario'); // Seleciona o input pelo ID
-    inputFoco.focus(); // Aplica o foco
-});
-
-function limparLocalStorage() {
-    localStorage.removeItem('inventario');
-    localStorage.removeItem('quantidadesPorProduto');
+        request.onerror = function (event) {
+            reject('Erro ao abrir IndexedDB: ' + event.target.errorCode);
+        };
+    });
 }
 
-// Chame essa função após o download do CSV
-document.getElementById('botaoSalvarFinal').addEventListener('click', function () {
-    // (Seu código atual de salvar o CSV aqui...)
-    limparLocalStorage(); // Remove os dados salvos no localStorage
+// Salvar um produto no IndexedDB
+function salvarProdutoNoDB(produto) {
+    const transaction = db.transaction([STORE_NAME], 'readwrite');
+    const store = transaction.objectStore(STORE_NAME);
+    store.put(produto);
+}
+
+// Carregar produtos do IndexedDB ao iniciar a página
+function carregarProdutosDoDB() {
+    return new Promise((resolve) => {
+        const transaction = db.transaction([STORE_NAME], 'readonly');
+        const store = transaction.objectStore(STORE_NAME);
+        const request = store.getAll();
+
+        request.onsuccess = function () {
+            resolve(request.result);
+        };
+    });
+}
+
+// Limpar o banco de dados (quando o inventário for salvo)
+function limparBancoDeDados() {
+    const transaction = db.transaction([STORE_NAME], 'readwrite');
+    const store = transaction.objectStore(STORE_NAME);
+    store.clear();
+}
+
+// Evento para salvar um produto
+function salvarProduto(codigo, nome, quantidade) {
+    const produto = { codigo, nome, quantidade };
+    salvarProdutoNoDB(produto);
+}
+
+// Ao carregar a página, abrir o banco e recuperar os dados
+abrirBanco().then(() => {
+    carregarProdutosDoDB().then((produtos) => {
+        produtos.forEach(produto => {
+            console.log('Produto restaurado:', produto);
+        });
+    });
 });
+
+// Evento de salvar inventário final
+const botaoSalvarFinal = document.getElementById('botaoSalvarFinal');
+botaoSalvarFinal.addEventListener('click', function () {
+    limparBancoDeDados();
+    alert('Inventário final salvo e banco de dados limpo!');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
