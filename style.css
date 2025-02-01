@@ -1,208 +1,186 @@
-/* Estilos gerais para o tema relacionado a inventário de estoque */
-body {
+* {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f4f8; /* Fundo claro e neutro */
-    color: #333; /* Texto escuro para legibilidade */
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
-/* Cabeçalho principal */
-h1 {
-    text-transform: uppercase;
-    text-align: center;
-    color: #333333; /* Cor neutra para manter o foco */
-    font-size: 22px;
-    margin-top: 5px;
-    font-weight: 600;
-    letter-spacing: 2px;
+
+
+/* Estilos gerais para o tema relacionado a inventário de estoque */
+body {
+    margin: 12px;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f8;
+    /* Fundo claro e neutro */
+    color: #333;
+    /* Texto escuro para legibilidade */
+    height: 900px;
 }
 
 /* Estilos para botões */
 button {
     width: 100%;
-    background-color: #6c757d; /* Cor cinza moderno */
+    background-color: #0056b3;
     color: #ffffff;
     border: none;
-    padding: 12px;
+    padding: 4px;
     font-size: 16px;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 10px;
 }
 
 button:hover {
-    background-color: #5a636c; /* Cor mais escura para hover */
+    background-color: #003f7d;
     transform: scale(1.05);
 }
 
 /* Inputs e labels */
-input[type="text"], input[type="number"], input[type="file"] {
+input[type="text"],
+input[type="number"],
+input[type="file"] {
     background-color: #ffffff;
     color: #333;
     border: 1px solid #cccccc;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 8px;
+    padding: 3px;
+    font-size: 14px;
+    border-radius: 5px;
     width: 100%;
     box-sizing: border-box;
-    margin-top: 10px;
-    text-transform: uppercase;    
+    margin-top: 1px;
+    text-transform: uppercase;
 }
 
-input[type="text"]:focus, input[type="number"]:focus, input[type="file"]:focus {
-    border: 2px solid #28a745; /* Verde suave para foco */
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="file"]:focus {
+    border: 2px solid #00b300;
     outline: none;
-    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
     text-transform: uppercase;
 }
 
 label {
     display: block;
     font-weight: bold;
-    margin: 15px 0 5px;
-    color: #333; /* Neutro para os rótulos */
+    margin: 10px 0 5px;
+    color: #0056b3;
+    /* Azul para destaque */
 }
 
 /* Containers e mensagens */
 .form-group {
     margin: 5px;
     max-width: 98%;
+    /* margin-left: auto;
+    margin-right: auto; */
     background-color: #ffffff;
-    padding: 15px;
-    border-radius: 10px;
+    padding: 5px;
+    border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Mensagem de upload */
+
 #mensagemUpload p {
     text-transform: uppercase;
-    background-color: #e0f7fa;
-    border: 1px solid #b2ebf2;
-    color: #00796b; /* Verde escuro para mais contraste */
-    padding: 12px;
+    background-color: #e9f5ff;
+    border: 1px solid #b3daff;
+    color: #0056b3;
+    padding: 5px 0;
     text-align: center;
     line-height: 30px;
-    border-radius: 8px;
+    border-radius: 5px;
     margin: 0;
-    height: 40px;
+    height: 30px;
     font-weight: bold;
 }
 
-/* Mensagem de confirmação */
-#mensagemConfirmacao p {
-    background-color: #388e3c; /* Verde escuro para confirmação */
+#mensagemConfirmacao {
+    margin-left: 10%;
+    margin-right: 10%;
+
+    -webkit-text-stroke-width: 0.0px;
+    -webkit-text-stroke-color: #333;
+    font-weight: bold;
+    background-color: #2f8703;
+    border: 1px solid #e9f5ff;
     color: #ffffff;
-    padding: 12px;
+    padding: 5px;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 15px;
+    margin-top: 8px;
     font-weight: bold;
-    margin-top: 10px;
+    text-transform: uppercase;
 }
 
-/* Estilos para a lista de produtos */
-#infoProduto, #listaProdutosEncontrados {
+#infoProduto,
+#listaProdutosEncontrados {
     background-color: #f8f9fa;
     border: 1px solid #19cdd6;
     color: #333;
-    padding: 12px;
-    border-radius: 10px;
-    margin-top: 15px;
-    width: 100%;
+    padding: 05px;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
-/* Lista de produtos */
 ul {
-    padding-inline-start: 0;
+    padding-inline-start: 5px;
 }
 
 #listaProdutos li {
-    font-size: 16px;
+    font-size: 14px;
     list-style: none;
-    padding: 12px;
-    margin: 10px 0;
+    padding: 10px;
+    margin: 0px;
     background-color: #ffffff;
     color: #333;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 5px;
     transition: background-color 0.3s ease;
     border: 1px solid #cccccc;
 }
 
 #listaProdutos li:hover {
-    background-color: #e0f7fa; /* Cor de hover mais suave */
+    background-color: #ffffff;
     border: 2px solid #19cdd6;
 }
 
 /* Botão de salvar inventário final */
 #botaoSalvarFinal {
-    margin-top: 30px;
     display: block;
-    padding: 12px;
-    background-color: #00796b;
+    margin: 5px;
+    padding: 5px;
+    background-color: #0056b3;
     color: #ffffff;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #botaoSalvarFinal:hover {
-    background-color: #004d40;
+    background-color: #003f7d;
     transform: scale(1.05);
 }
 
-/* Botão de limpar */
-#botaoLimpar {
-    margin-top: 10px;
-    padding: 12px;
-    background-color: #d32f2f; /* Cor vermelha para o botão de limpar */
-    color: #ffffff;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
 
-#botaoLimpar:hover {
-    background-color: #b71c1c;
-    transform: scale(1.05);
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    body {
-        font-size: 0.9em;
-    }
-
-    h1 {
-        font-size: 2em;
-    }
-
-    button, input {
-        font-size: 0.9em;
-        padding: 10px;
-    }
-}
-
-/* Alinhamento de linha */
 .linha {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
-    width: 100%;
+    /* Espaço entre o label e o input */
 }
 
 .linha label {
-    width: auto;
+    width: 100px;
+    /* Define uma largura fixa para os labels */
     text-align: left;
+    /* Alinha o texto à direita */
+}
+
+#botaoLimpar {
+    border-radius: 5px;
+    background-color: rgb(255, 0, 0);
+    font-weight: bold;
+    border: #333 solid 1px;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,65 +9,70 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="form-group">
-        <button id="botaoTelaCheia">Tela Cheia</button>
-    </div>
-    <h1 id="titulo">Inventário de Produtos</h1>
+    <div class="corpo">
+        <div class="form-group">
+            <button id="botaoTelaCheia">Tela Cheia</button>
+        </div>
+        <h1 id="titulo">Inventário de Produtos</h1>
 
-    <!-- Mensagem de confirmação após o arquivo ser carregado -->
-    <div id="mensagemUpload" style="display: none;">
-        <p>Arquivo carregado com sucesso!</p>
-    </div>
+        <!-- Mensagem de confirmação após o arquivo ser carregado -->
+        <div id="mensagemUpload" style="display: none;">
+            <p>Arquivo carregado com sucesso!</p>
+        </div>
 
-    <div class="form-group linha">
-        <label for="usuario">Usuario:</label>
-        <input type="text" id="usuario" name="local" placeholder="Digite o usuário" enterkeyhint="enter" />
-    </div>
+        <div class="form-group linha">
+            <label for="usuario">Usuario:</label>
+            <input type="text" id="usuario" name="local" placeholder="Digite o usuário" enterkeyhint="enter" />
+        </div>
 
-    <!-- Campo para digitar o local -->
-    <div class="form-group linha">
-        <label for="local">Local:</label>
-        <input type="text" id="local" name="local" placeholder="Digite o local" enterkeyhint="enter" />
-    </div>
+        <!-- Campo para digitar o local -->
+        <div class="form-group linha">
+            <label for="local">Local:</label>
+            <input type="text" id="local" name="local" placeholder="Digite o local" enterkeyhint="enter" />
+        </div>
 
-    <!-- Campo para digitar o código de barras -->
-    <div class="form-group linha">
-        <label for="codigoBarras">EAN:</label>
-        <input type="text" id="codigoBarras" name="codigoBarras" placeholder="Cód. acesso ou nome" enterkeyhint="done"  />
-    </div>
-
-    
-    <div id="listaProdutosEncontrados" class="form-group" style="display: none;">
-        <label>Produtos encontrados:</label>
-        <ul id="listaProdutos"></ul>
-    </div>
-
-    <!-- Exibição dos dados encontrados no CSV -->
-    <div id="infoProduto" class="form-group" style="display: none;">
-        <label>Dados do Produto Encontrado:</label>
-        <p id="detalhesProduto">Nenhum produto encontrado.</p>
-    </div>
+        <!-- Campo para digitar o código de barras -->
+        <div class="form-group linha">
+            <label for="codigoBarras">EAN:</label>
+            <input type="text" id="codigoBarras" name="codigoBarras" placeholder="Cód. acesso ou nome"
+                enterkeyhint="done" />
+        </div>
 
 
+        <div id="listaProdutosEncontrados" class="form-group" style="display: none;">
+            <label>Produtos encontrados:</label>
+            <ul id="listaProdutos"></ul>
+        </div>
 
-    <!-- Campo para digitar a quantidade -->
-    <div class="form-group linha">
-        <label for="quantidade">QTDE:</label>
-        <input type="number" id="quantidade" name="quantidade" placeholder="Digite a quantidade" />
-        <span id="totalQuantidade"></span>
-        <button id="botaoLimpar">Limpar</button>
-    </div>
+        <!-- Exibição dos dados encontrados no CSV -->
+        <div id="infoProduto" class="form-group" style="display: none;">
+            <label>Dados do Produto Encontrado:</label>
+            <p id="detalhesProduto">Nenhum produto encontrado.</p>
+        </div>
 
-    <div id="mensagemConfirmacao" style="display: none;">
-        <p>Informações salvas com sucesso!</p>
-    </div>
 
-    <!-- Botão de salvar o inventário completo -->
-    <div class="form-group">
-        <button id="botaoSalvarFinal">Salvar Inventário Final</button>
+
+        <!-- Campo para digitar a quantidade -->
+        <div class="form-group linha">
+            <label for="quantidade">QTDE:</label>
+            <input type="number" id="quantidade" name="quantidade" placeholder="Digite a quantidade" />
+            <span id="totalQuantidade"></span>
+            <button id="botaoLimpar">Limpar</button>
+        </div>
+
+        <div id="mensagemConfirmacao" style="display: none;">
+            <p>Informações salvas com sucesso!</p>
+        </div>
+
+        <!-- Botão de salvar o inventário completo -->
+        <div class="form-group">
+            <button id="botaoSalvarFinal">Salvar Inventário Final</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
 </body>
+
 </html>
