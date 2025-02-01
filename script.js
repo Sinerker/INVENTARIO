@@ -1,7 +1,12 @@
+// Obtém o elemento HTML do botão de tela cheia
 const botao = document.getElementById('botaoTelaCheia');
 
+// Adiciona um ouvinte de evento no botão para ativar a tela cheia
 botao.addEventListener('click', function () {
+    // Obtém o elemento raiz (documento inteiro) para fazer a tela cheia
     const elemento = document.documentElement;
+
+    // Tenta ativar o modo tela cheia, considerando diferentes navegadores
     if (elemento.requestFullscreen) {
         elemento.requestFullscreen();
     } else if (elemento.webkitRequestFullscreen) {
@@ -11,105 +16,226 @@ botao.addEventListener('click', function () {
     } else if (elemento.msRequestFullscreen) {
         elemento.msRequestFullscreen();
     }
+
+    // Esconde o botão de tela cheia depois de ativá-la
     botao.style.display = 'none';
 });
 
+// Evento que é disparado quando a tela cheia é desativada
 document.addEventListener('fullscreenchange', () => {
+    // Se a tela cheia for desativada, exibe o botão novamente
     if (!document.fullscreenElement) {
         botao.style.display = 'block';
     }
 });
 
+// Quando o DOM da página é totalmente carregado
 document.addEventListener('DOMContentLoaded', () => {
+    // Foca no campo do usuário para facilitar a navegação
     document.getElementById('usuario').focus();
+    // Carrega os dados do arquivo CSV
     carregarDadosCsv();
+    iniciarIndexedDB(); // Inicializa o IndexedDB
 });
 
+// Inicializa variáveis globais para armazenar dados
 let dadosCsv = [];
-let inventario = [];
+let db; // Banco de dados IndexedDB
 let quantidadesPorProduto = {};
+
+// URL do arquivo CSV
 const arquivoCsvUrl = 'https://raw.githubusercontent.com/Sinerker/INVENTARIO/main/dados.csv';
 
+// Função para carregar os dados do arquivo CSV
 function carregarDadosCsv() {
+    // Faz uma requisição para pegar o arquivo CSV
     fetch(arquivoCsvUrl)
-        .then(response => response.text())
+        .then(response => response.text())  // Obtém o texto do arquivo CSV
         .then(conteudo => {
+            // Separa o conteúdo do CSV em linhas e colunas
             dadosCsv = conteudo.split('\n').map(linha => linha.split(';'));
+            // Exibe a mensagem de upload concluído
             document.getElementById('mensagemUpload').style.display = 'block';
             document.getElementById('titulo').style.display = 'none';
         })
-        .catch(error => console.error('Erro ao carregar o arquivo CSV:', error));
+        .catch(error => console.error('Erro ao carregar o arquivo CSV:', error));  // Caso haja erro
+}
+
+
+// Inicializa o banco de dados IndexedDB
+// Inicializa o banco de dados IndexedDB
+function iniciarIndexedDB() {
+    const request = indexedDB.open('InventarioDB', 2); // Aumente a versão para forçar a atualização
+
+    request.onupgradeneeded = function (event) {
+        let db = event.target.result;
+
+        // Verifica se a object store já existe antes de tentar criá-la
+        if (!db.objectStoreNames.contains('inventario')) {
+            db.createObjectStore('inventario', { keyPath: 'id', autoIncrement: true });
+            console.log("Object store 'inventario' criada com sucesso!");
+        }
+    };
+
+    request.onsuccess = function (event) {
+        db = event.target.result;
+        console.log("IndexedDB aberto com sucesso!");
+        carregarDadosDoIndexedDB();
+    };
+
+    request.onerror = function (event) {
+        console.error('Erro ao abrir IndexedDB:', event.target.errorCode);
+    };
+}
+
+function limparIndexedDB() {
+    if (!db) {
+        console.error("Banco de dados não inicializado.");
+        return;
+    }
+
+    const transacao = db.transaction(['inventario'], 'readwrite');
+    const store = transacao.objectStore('inventario');
+    const request = store.clear();
+
+    request.onsuccess = function () {
+        console.log("IndexedDB limpo com sucesso!");
+        alert("Dados apagados! A página será recarregada.");
+        location.reload(); // 🔄 Recarrega a página automaticamente
+    };
+
+    request.onerror = function (event) {
+        console.error("Erro ao limpar IndexedDB:", event.target.error);
+    };
 }
 
 
 
 
+// Função para salvar os dados no IndexedDB
+function salvarNoIndexedDB(usuario, produto, local, quantidade) {
+    if (!db) {
+        console.error("IndexedDB ainda não está pronto.");
+        return;
+    }
+
+    const transacao = db.transaction(['inventario'], 'readwrite');
+    const store = transacao.objectStore('inventario');
+
+    const objeto = { usuario, produto, local, quantidade };
+
+    const request = store.add(objeto);
+
+    request.onsuccess = function () {
+        console.log("Item salvo com sucesso no IndexedDB!");
+    };
+
+    request.onerror = function (event) {
+        console.error("Erro ao salvar no IndexedDB:", event.target.error);
+    };
+}
+
+function carregarDadosDoIndexedDB() {
+    if (!db) {
+        console.error("Banco de dados não está pronto.");
+        return;
+    }
+
+    const transacao = db.transaction(['inventario'], 'readonly');
+    const store = transacao.objectStore('inventario');
+    const request = store.getAll();
+
+    request.onsuccess = function () {
+        const dados = request.result;
+        
+        // Se não houver dados, não faz nada
+        if (dados.length === 0) return;
+        
+        console.log("Dados carregados do IndexedDB:", dados);
+
+        // Reinicia o objeto de quantidades
+        quantidadesPorProduto = {};
+
+        // Atualiza quantidades com base nos dados armazenados
+        dados.forEach(item => {
+            const codigoProduto = item.produto.split(' | ')[3].trim(); // Obtém o código de barras
+            quantidadesPorProduto[codigoProduto] = (quantidadesPorProduto[codigoProduto] || 0) + parseFloat(item.quantidade);
+        });
+
+        console.log("Quantidades restauradas:", quantidadesPorProduto);
+    };
+
+    request.onerror = function (event) {
+        console.error("Erro ao carregar dados do IndexedDB:", event.target.error);
+    };
+}
 
 
+
+// Função para exibir a lista de produtos encontrados
 function exibirListaDeProdutos(produtos) {
     const listaProdutos = document.getElementById('listaProdutos');
-    listaProdutos.innerHTML = '';
+    listaProdutos.innerHTML = '';  // Limpa a lista existente
 
+    // Se não houver produtos, exibe mensagem de "nenhum produto encontrado"
     if (produtos.length === 0) {
         document.getElementById('listaProdutosEncontrados').style.display = 'none';
         document.getElementById('detalhesProduto').textContent = 'Nenhum produto encontrado.';
         return;
     }
 
+    // Para cada produto encontrado, cria um item na lista
     produtos.forEach(produto => {
         const itemLista = document.createElement('li');
 
-        // Montando a string com mais informações do produto
+        // Monta a string com as informações do produto
         const codigo = produto[0] ? produto[0].trim() : 'Sem código';
         const descricao = produto[1] ? produto[1].trim() : 'Sem descrição';
         const embalagem = produto[2] ? produto[2].trim() : 'Sem embalagem';
         const codigoBarras = produto[3] ? produto[3].trim() : 'Sem código de barras';
 
+        // Preenche o item da lista
         itemLista.innerHTML = `<strong>${codigo}</strong> - ${descricao} | ${embalagem} | <em>${codigoBarras}</em>`;
         
-        // Evento de clique para selecionar o produto e exibir os detalhes completos
+        // Evento de clique para exibir os detalhes completos do produto
         itemLista.addEventListener('click', () => mostrarDetalhesDoProduto(produto));
         
         listaProdutos.appendChild(itemLista);
     });
 
+    // Exibe a lista de produtos encontrados
     document.getElementById('listaProdutosEncontrados').style.display = 'block';
 }
 
-
-
-
-
-
-
-
-
+// Função para exibir os detalhes de um produto quando clicado
 function mostrarDetalhesDoProduto(produto) {
+    // Exibe as informações do produto selecionado
     document.getElementById('detalhesProduto').textContent = produto.join(' | ');
     document.getElementById('infoProduto').style.display = 'block';
-    document.getElementById('quantidade').focus();
+    document.getElementById('quantidade').focus();  // Foca no campo quantidade
 
-    // Obter o código do produto (código de barras)
+    // Obtém o código de barras do produto
     const produtoChave = produto[3].trim();
 
-    // Exibe a quantidade total registrada anteriormente
+    // Exibe a quantidade total registrada do produto
     const totalQuantidades = quantidadesPorProduto[produtoChave] || 0;
     document.getElementById('quantidade').value = totalQuantidades;
+
+    // Seleciona o campo da quantidade
     const campoQuantidade = document.getElementById('quantidade');
     campoQuantidade.select();
 
-    // Esconde a lista de produtos encontrados após selecionar um item
+    // Esconde a lista de produtos encontrados
     document.getElementById('listaProdutosEncontrados').style.display = 'none';
 }
 
-
-
-// Procurar o código ou nome do produto e exibir as informações quando "Enter" for pressionado
+// Evento para buscar produto quando o "Enter" é pressionado no campo código de barras
 document.getElementById('codigoBarras').addEventListener('keydown', function (evento) {
     if (evento.keyCode === 13) {  // Se "Enter" for pressionado
-        document.getElementById('mensagemConfirmacao').style.display = 'none';
-        const pesquisa = this.value.trim();
+        document.getElementById('mensagemConfirmacao').style.display = 'none';  // Esconde a mensagem de confirmação
+        const pesquisa = this.value.trim();  // Obtém o valor de pesquisa
 
+        // Se o campo de pesquisa estiver vazio, esconde os detalhes
         if (!pesquisa) {
             document.getElementById('infoProduto').style.display = 'none';
             return;
@@ -117,33 +243,34 @@ document.getElementById('codigoBarras').addEventListener('keydown', function (ev
 
         let produtoEncontrado = null;
 
-        // Tentar buscar pelo código de barras
+        // Tenta buscar pelo código de barras
         produtoEncontrado = dadosCsv.find(linha => linha[3] && linha[3].trim() === pesquisa);
 
         if (produtoEncontrado) {
-            quantidade.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Rolagem suave
-            // Se o produto for encontrado pelo código, exibe os detalhes
+            quantidade.scrollIntoView({ behavior: 'smooth', block: 'start' });  // Rolagem suave para o campo quantidade
+            // Se o produto for encontrado, exibe os detalhes
             mostrarDetalhesDoProduto(produtoEncontrado);
         } else {
+            // Se não encontrar pelo código, tenta buscar pelo nome
             if (isNaN(produtoEncontrado)) {
-                // Se não for um número válido (não encontrar pelo código), buscar pelo nome
+                // Filtra produtos com base no nome
                 const nomeProdutosEncontrados = dadosCsv.filter(linha => {
-                    if (!linha[1]) return false; // Se o nome do produto não existir, ignora.
+                    if (!linha[1]) return false;  // Se não houver nome, ignora
 
-                    const nomeProduto = linha[1].trim().toLowerCase(); // Nome do produto no CSV.
-                    const palavrasPesquisa = pesquisa.toLowerCase().split(/\s+/).filter(palavra => isNaN(palavra) && palavra.trim() !== ""); // Palavras da pesquisa.
+                    const nomeProduto = linha[1].trim().toLowerCase();  // Nome do produto
+                    const palavrasPesquisa = pesquisa.toLowerCase().split(/\s+/).filter(palavra => isNaN(palavra) && palavra.trim() !== "");  // Palavras da pesquisa
 
-                    // Verifica se todas as palavras de pesquisa estão presentes no nome do produto.
-                    // Se palavras de pesquisa estiverem vazias, não realiza a busca.
+                    // Verifica se todas as palavras de pesquisa estão presentes no nome do produto
                     if (palavrasPesquisa.length === 0) return false;
 
                     return palavrasPesquisa.every(palavra => nomeProduto.includes(palavra));
                 });
 
+                // Se produtos forem encontrados pelo nome, exibe-os
                 if (nomeProdutosEncontrados.length > 0) {
                     exibirListaDeProdutos(nomeProdutosEncontrados);
                 } else {
-                    // Se não encontrar pelo nome ou código
+                    // Se não encontrar pelo nome nem código
                     document.getElementById('infoProduto').style.display = 'none';
                 }
             }
@@ -152,39 +279,25 @@ document.getElementById('codigoBarras').addEventListener('keydown', function (ev
 });
 
 
+// Evento para capturar a quantidade ao pressionar "Enter"
 document.getElementById('quantidade').addEventListener('keydown', function (evento) {
     if (evento.keyCode === 13) {
         const local = document.getElementById('local').value.trim();
         let quantidade = parseFloat(this.value.trim());
         if (isNaN(quantidade)) {
-            alert('Por favor, insira uma quantidade válida.');
+            alert('Insira uma quantidade válida.');
             return;
         }
         const produtoDetalhes = document.getElementById('detalhesProduto').textContent.trim();
         const usuario = document.getElementById('usuario').value.trim();
         if (!local || produtoDetalhes === 'Nenhum produto encontrado.') {
-            alert('Por favor, preencha todos os campos corretamente.');
+            alert('Preencha todos os campos corretamente.');
             return;
         }
 
-        // Obter o código do produto (código de barras)
-        const codigoProduto = produtoDetalhes.split(" | ")[3].trim();
-
-        // Atualizar a quantidade total do produto
-        if (!quantidadesPorProduto[codigoProduto]) {
-            quantidadesPorProduto[codigoProduto] = 0;
-        }
-        quantidadesPorProduto[codigoProduto] += quantidade;
-
-        // Salvar no IndexedDB
-        inventario.push(`${usuario};${produtoDetalhes};${local};${quantidade}`);
-        
-        // Aqui você chama a função para salvar o produto diretamente no IndexedDB
-        salvarProdutoNoDB({
-            codigo: codigoProduto,
-            nome: produtoDetalhes.split(" | ")[1].trim(),
-            quantidade: quantidadesPorProduto[codigoProduto]
-        });
+        const codigoProduto = produtoDetalhes.split(' | ')[3].trim();
+        quantidadesPorProduto[codigoProduto] = (quantidadesPorProduto[codigoProduto] || 0) + quantidade;
+        salvarNoIndexedDB(usuario, produtoDetalhes, local, quantidade);
 
         document.getElementById('mensagemConfirmacao').style.display = 'block';
         document.getElementById('quantidade').value = '';
@@ -195,62 +308,54 @@ document.getElementById('quantidade').addEventListener('keydown', function (even
     }
 });
 
-
-
+// Função para exportar os dados do IndexedDB para CSV
 document.getElementById('botaoSalvarFinal').addEventListener('click', function () {
-    // Antes de salvar, carregar os dados do IndexedDB para o inventário
-    carregarProdutosDoDB().then((produtos) => {
-        // Atualiza o inventário com os dados do IndexedDB
-        inventario = produtos.map(produto => {
-            return `${produto.codigo};${produto.nome};${produto.local || ''};${produto.quantidade}`;
-        });
+    const transacao = db.transaction(['inventario'], 'readonly');
+    const store = transacao.objectStore('inventario');
+    const request = store.getAll();
 
-        // Verificar se há dados no inventário
-        if (inventario.length === 0) {
-            alert('Nenhum dado de inventário foi registrado.');
+    request.onsuccess = function () {
+        if (request.result.length === 0) {
+            alert('Nenhum dado foi registrado.');
             return;
         }
 
-        const confirmacao = confirm('Você tem certeza que deseja salvar o inventário?');
-        if (confirmacao) {
-            const cabecalho = ['Usuario', 'Produto', 'Local', 'Quantidade'];
-            let conteudoCsv = cabecalho.join(';') + '\n' + inventario.join('\n');
-            const blob = new Blob([conteudoCsv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'inventario.csv';
-            link.click();
-            alert('Inventário salvo com sucesso!');
+        const cabecalho = ['Usuario', 'Produto', 'Local', 'Quantidade'];
+        let conteudoCsv = cabecalho.join(';') + '\n' + request.result.map(item => `${item.usuario};${item.produto};${item.local};${item.quantidade}`).join('\n');
+        const blob = new Blob([conteudoCsv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'inventario.csv';
+        link.click();
+        alert('Inventário salvo com sucesso!');
+        limparIndexedDB();
 
-            // Limpar o inventário após o download
-            inventario = [];
-        }
-    }).catch(error => {
-        console.error('Erro ao carregar produtos do DB:', error);
-    });
+    };
 });
 
-
+// Evento para navegar entre os campos pressionando "Enter"
 document.getElementById('usuario').addEventListener('keydown', event => {
     if (event.key === 'Enter') {
         event.preventDefault();
-        document.getElementById('local').focus();
+        document.getElementById('local').focus();  // Foca no campo local
     }
 });
 
+// Outro evento para navegar entre os campos
 document.getElementById('local').addEventListener('keydown', event => {
     if (event.key === 'Enter') {
         event.preventDefault();
-        document.getElementById('codigoBarras').focus();
+        document.getElementById('codigoBarras').focus();  // Foca no campo código de barras
     }
 });
 
-
+// Função para limpar os campos
 document.getElementById('botaoLimpar').addEventListener('click', function () {
-    limparCampos();
+    limparCampos();  // Chama a função para limpar os campos
 });
 
+// Função para limpar todos os campos do formulário
 function limparCampos() {
     document.getElementById('codigoBarras').value = '';
     document.getElementById('quantidade').value = '';
@@ -258,137 +363,3 @@ function limparCampos() {
     document.getElementById('infoProduto').style.display = 'none';
     document.getElementById('codigoBarras').focus();
 }
-
-
-
-
-
-
-
-// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-const DB_NAME = 'InventarioDB';
-const DB_VERSION = 1;
-const STORE_NAME = 'inventario';
-
-let db;
-
-// Abrir ou criar o banco de dados IndexedDB
-function abrirBanco() {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-        
-        request.onupgradeneeded = function (event) {
-            let db = event.target.result;
-            if (!db.objectStoreNames.contains(STORE_NAME)) {
-                db.createObjectStore(STORE_NAME, { keyPath: 'codigo' });
-            }
-        };
-
-        request.onsuccess = function (event) {
-            db = event.target.result;
-            resolve();
-        };
-
-        request.onerror = function (event) {
-            reject('Erro ao abrir IndexedDB: ' + event.target.errorCode);
-        };
-    });
-}
-
-// Salvar um produto no IndexedDB
-function salvarProdutoNoDB(produto) {
-    const transaction = db.transaction([STORE_NAME], 'readwrite');
-    const store = transaction.objectStore(STORE_NAME);
-
-    // Tentando salvar o produto no banco
-    const request = store.put(produto);
-
-    request.onsuccess = function () {
-        console.log('Produto salvo com sucesso:', produto);
-    };
-
-    request.onerror = function () {
-        console.error('Erro ao salvar o produto no IndexedDB:', request.error);
-    };
-
-    transaction.oncomplete = function () {
-        console.log('Transação de salvar produto concluída com sucesso!');
-    };
-
-    transaction.onerror = function () {
-        console.error('Erro na transação ao salvar o produto');
-    };
-}
-
-// Carregar produtos do IndexedDB ao iniciar a página
-function carregarProdutosDoDB() {
-    return new Promise((resolve) => {
-        const transaction = db.transaction([STORE_NAME], 'readonly');
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.getAll();
-
-        request.onsuccess = function () {
-            resolve(request.result);
-        };
-    });
-}
-
-// Limpar o banco de dados (quando o inventário for salvo)
-function limparBancoDeDados() {
-    const transaction = db.transaction([STORE_NAME], 'readwrite');
-    const store = transaction.objectStore(STORE_NAME);
-    store.clear();
-}
-
-// Evento para salvar um produto
-function salvarProduto(codigo, nome, quantidade) {
-    const produto = { codigo, nome, quantidade };
-    salvarProdutoNoDB(produto);
-}
-
-// Ao carregar a página, abrir o banco e recuperar os dados
-abrirBanco().then(() => {
-    carregarProdutosDoDB().then((produtos) => {
-        produtos.forEach(produto => {
-            console.log('Produto restaurado:', produto);
-            quantidadesPorProduto[produto.codigo] = produto.quantidade;  // Atualiza a quantidade no objeto
-        });
-    }).catch(error => {
-        console.error('Erro ao carregar produtos do DB:', error);
-    });
-});
-
-
-
-// Evento de salvar inventário final
-const botaoSalvarFinal = document.getElementById('botaoSalvarFinal');
-botaoSalvarFinal.addEventListener('click', function () {
-    limparBancoDeDados();
-    alert('Inventário final salvo e banco de dados limpo!');
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
