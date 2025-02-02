@@ -54,9 +54,6 @@ function carregarDadosCsv() {
         .then(conteudo => {
             // Separa o conteúdo do CSV em linhas e colunas
             dadosCsv = conteudo.split('\n').map(linha => linha.split(';'));
-            // Exibe a mensagem de upload concluído
-            document.getElementById('mensagemUpload').style.display = 'block';
-            document.getElementById('titulo').style.display = 'none';
         })
         .catch(error => console.error('Erro ao carregar o arquivo CSV:', error));  // Caso haja erro
 }
@@ -195,7 +192,7 @@ function exibirListaDeProdutos(produtos) {
         const codigoBarras = produto[3] ? produto[3].trim() : 'Sem código de barras';
 
         // Preenche o item da lista
-        itemLista.innerHTML = `<strong>${codigo}</strong> - ${descricao} | ${embalagem} | <em>${codigoBarras}</em>`;
+        itemLista.innerHTML = `<strong>${codigo}</strong> - ${descricao} | ${embalagem} | <b>${codigoBarras}</b>`;
         
         // Evento de clique para exibir os detalhes completos do produto
         itemLista.addEventListener('click', () => mostrarDetalhesDoProduto(produto));

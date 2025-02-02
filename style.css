@@ -27,10 +27,12 @@ button {
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
+    text-transform: capitalize;
+    font-weight: bold;
 }
 
 button:hover {
-    background-color: #003f7d;
+    background-color: #000000;
     transform: scale(1.05);
 }
 
@@ -38,13 +40,14 @@ button:hover {
 input[type="text"],
 input[type="number"],
 input[type="file"] {
+    flex: 1;
     background-color: #ffffff;
     color: #333;
-    border: 1px solid #cccccc;
+    border: 1px solid #000000;
     padding: 3px;
     font-size: 14px;
     border-radius: 5px;
-    width: 100%;
+    width: auto;
     box-sizing: border-box;
     margin-top: 1px;
     text-transform: uppercase;
@@ -53,14 +56,17 @@ input[type="file"] {
 input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="file"]:focus {
-    border: 2px solid #00b300;
+    border: 2px solid #00ff15;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
     text-transform: uppercase;
+    scale: 1.03;
+    transition: 0.2s;
 }
 
 label {
-    display: block;
+    flex: 0 0 70px;
+    display: inline-flex;
     font-weight: bold;
     margin: 10px 0 5px;
     color: #0056b3;
@@ -69,14 +75,14 @@ label {
 
 /* Containers e mensagens */
 .form-group {
-    margin: 5px;
-    max-width: 98%;
+    margin: 10px;
+    max-width: 100%;
     /* margin-left: auto;
     margin-right: auto; */
     background-color: #ffffff;
     padding: 5px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.8);
 }
 
 
@@ -130,13 +136,13 @@ ul {
     font-size: 14px;
     list-style: none;
     padding: 10px;
-    margin: 0px;
+    margin: 2px;
     background-color: #ffffff;
     color: #333;
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-    border: 1px solid #cccccc;
+    border: 1px solid #6d6b6b;
 }
 
 #listaProdutos li:hover {
@@ -159,28 +165,35 @@ ul {
 }
 
 #botaoSalvarFinal:hover {
-    background-color: #003f7d;
+    background-color: #000000;
     transform: scale(1.05);
 }
 
 
+/* Ajustando a linha da quantidade para alinhar corretamente */
 .linha {
     display: flex;
     align-items: center;
-    gap: 10px;
-    /* Espaço entre o label e o input */
+    gap: 2px; /* Reduzindo o espaço entre os elementos */
+    justify-content: space-between;
 }
 
 .linha label {
-    width: 100px;
-    /* Define uma largura fixa para os labels */
-    text-align: left;
-    /* Alinha o texto à direita */
+    width: 22%; /* Reduzindo a largura do label para diminuir o espaçamento */
+    text-align: left; /* Alinha o texto à esquerda */
+}
+
+
+.linha input {
+    flex: 1; /* Faz o input ocupar o espaço disponível */
 }
 
 #botaoLimpar {
-    border-radius: 5px;
-    background-color: rgb(255, 0, 0);
+    width: auto; /* Deixar o botão com tamanho automático */
+    padding: 5px 10px;
+    background-color: rgba(24, 197, 24, 0.911);
     font-weight: bold;
     border: #333 solid 1px;
+    border-radius: 5px;
+    margin-left: auto; /* Empurra o botão para a direita */
 }
