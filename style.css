@@ -47,7 +47,7 @@ input[type="file"] {
     padding: 3px;
     font-size: 14px;
     border-radius: 5px;
-    width: auto;
+    width: 50%;
     box-sizing: border-box;
     margin-top: 1px;
     text-transform: uppercase;
@@ -189,7 +189,7 @@ ul {
 }
 
 #botaoLimpar {
-    width: auto; /* Deixar o botão com tamanho automático */
+    width: 25%; /* Deixar o botão com tamanho automático */
     padding: 5px 10px;
     background-color: rgba(24, 197, 24, 0.911);
     font-weight: bold;
