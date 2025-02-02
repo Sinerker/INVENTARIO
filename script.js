@@ -62,7 +62,7 @@ function carregarDadosCsv() {
 // Inicializa o banco de dados IndexedDB
 // Inicializa o banco de dados IndexedDB
 function iniciarIndexedDB() {
-    const request = indexedDB.open('InventarioDB', 2); // Aumente a versão para forçar a atualização
+    const request = indexedDB.open('InventarioDB', 1); // Aumente a versão para forçar a atualização
 
     request.onupgradeneeded = function (event) {
         let db = event.target.result;
