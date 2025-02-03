@@ -7,14 +7,15 @@
 
 /* Estilos gerais para o tema relacionado a inventário de estoque */
 body {
-    margin: 12px;
+    width: 100%;
+    margin: 0px;
     padding: 0;
     font-family: 'Arial', sans-serif;
     background-color: #f4f6f8;
     /* Fundo claro e neutro */
     color: #333;
     /* Texto escuro para legibilidade */
-    height: 900px;
+    height: 600px;
 }
 
 /* Estilos para botões */
@@ -44,7 +45,7 @@ input[type="file"] {
     background-color: #ffffff;
     color: #333;
     border: 1px solid #000000;
-    padding: 3px;
+    padding: 8px;
     font-size: 14px;
     border-radius: 5px;
     width: 50%;
@@ -183,9 +184,10 @@ ul {
 #botaoLimpar {
     width: 25%; /* Deixar o botão com tamanho automático */
     padding: 5px 10px;
-    background-color: rgba(24, 197, 24, 0.911);
+    background-color: rgba(255, 0, 0, 0.911);
     font-weight: bold;
     border: #333 solid 1px;
     border-radius: 5px;
+    color: rgb(255, 255, 255);
     margin-left: auto; /* Empurra o botão para a direita */
 }
