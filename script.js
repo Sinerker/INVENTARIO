@@ -216,6 +216,9 @@ function mostrarDetalhesDoProduto(produto) {
 
     // Exibe a quantidade total registrada do produto
     const totalQuantidades = quantidadesPorProduto[produtoChave] || 0;
+    if(totalQuantidades != 0){
+            tocarBip();
+    }
     document.getElementById('quantidade').value = totalQuantidades;
 
     // Seleciona o campo da quantidade
@@ -281,22 +284,41 @@ document.getElementById('quantidade').addEventListener('keydown', function (even
     if (evento.keyCode === 13) {
         const local = document.getElementById('local').value.trim();
         let quantidade = parseFloat(this.value.trim());
+        const mensagem = document.getElementById('mensagemConfirmacao'); // Elemento onde será exibida a mensagem
+        mensagem.style.display = 'block'; // Garante que o elemento seja visível
+
         if (isNaN(quantidade)) {
-            alert('Insira uma quantidade válida.');
+            mensagem.textContent = '❌ Insira uma quantidade válida.';
+            mensagem.style.color = 'white';
             return;
         }
+
+        if (quantidade > 5000) {
+            mensagem.textContent = '❌ Quantidade muito alta! Digite um valor menor que 5000.';
+            mensagem.style.color = 'white';
+            return;
+        }
+
         const produtoDetalhes = document.getElementById('detalhesProduto').textContent.trim();
         const usuario = document.getElementById('usuario').value.trim();
+
         if (!local || produtoDetalhes === 'Nenhum produto encontrado.') {
-            alert('Preencha todos os campos corretamente.');
+            mensagem.textContent = '❌ Preencha todos os campos corretamente.';
+            mensagem.style.color = 'white';
             return;
         }
 
+        // Obtém o código do produto e atualiza a quantidade total
         const codigoProduto = produtoDetalhes.split(' | ')[3].trim();
+
+
         quantidadesPorProduto[codigoProduto] = (quantidadesPorProduto[codigoProduto] || 0) + quantidade;
+
         salvarNoIndexedDB(usuario, produtoDetalhes, local, quantidade);
 
-        document.getElementById('mensagemConfirmacao').style.display = 'block';
+        // Exibe a mensagem de confirmação e reseta os campos
+        mensagem.textContent = '✅ Quantidade registrada com sucesso!';
+        mensagem.style.color = 'white';
         document.getElementById('quantidade').value = '';
         document.getElementById('codigoBarras').value = '';
         document.getElementById('detalhesProduto').textContent = 'Nenhum produto encontrado.';
@@ -304,6 +326,24 @@ document.getElementById('quantidade').addEventListener('keydown', function (even
         document.getElementById('codigoBarras').focus();
     }
 });
+
+
+function tocarBip() {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.type = 'sine'; // Tipo de som (onda senoidal)
+    oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime); // Frequência do bip (1000 Hz)
+    gainNode.gain.setValueAtTime(1.0, audioCtx.currentTime); // Volume reduzido para não ser incômodo
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    oscillator.start();
+    setTimeout(() => oscillator.stop(), 750); // Toca o som por 150ms
+}
+
 
 // Função para exportar os dados do IndexedDB para CSV
 document.getElementById('botaoSalvarFinal').addEventListener('click', function () {
