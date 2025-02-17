@@ -252,15 +252,15 @@ document.getElementById('codigoBarras').addEventListener('keydown', function (ev
             if (isNaN(produtoEncontrado)) {
                 // Filtra produtos com base no nome
                 const nomeProdutosEncontrados = dadosCsv.filter(linha => {
-                    if (!linha[1]) return false;  // Se não houver nome, ignora
-
-                    const nomeProduto = linha[1].trim().toLowerCase();  // Nome do produto
-                    const palavrasPesquisa = pesquisa.toLowerCase().split(/\s+/).filter(palavra => isNaN(palavra) && palavra.trim() !== "");  // Palavras da pesquisa
-
-                    // Verifica se todas as palavras de pesquisa estão presentes no nome do produto
-                    if (palavrasPesquisa.length === 0) return false;
-
-                    return palavrasPesquisa.every(palavra => nomeProduto.includes(palavra));
+                    if (!linha[1]) return false;  // Ignora produtos sem nome
+                
+                    const nomeProduto = linha[1].trim().toLowerCase();  // Nome do produto em minúsculas
+                    const pesquisaNormalizada = pesquisa.trim().toLowerCase(); // Pesquisa normalizada em minúsculas
+                
+                    // Verifica se a pesquisa aparece no nome do produto respeitando a ordem das palavras
+                    const regex = new RegExp(pesquisaNormalizada.split(/\s+/).join(".*?"), "i");
+                
+                    return regex.test(nomeProduto);
                 });
 
                 // Se produtos forem encontrados pelo nome, exibe-os
