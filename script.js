@@ -359,7 +359,7 @@ document.getElementById('botaoSalvarFinal').addEventListener('click', function (
 
         const cabecalho = ['Usuario', 'CÓD.SISTEMA', 'EAN', 'Produto', 'EMB', 'Quantidade', 'Local'];
         let conteudoCsv = cabecalho.join('|') + '\n' + request.result.map(item => 
-            `${item.usuario}|${item.codigoSistema}|${item.ean}|${item.produto}|${item.embalagem}|${item.quantidade}|${item.local}`
+            `${item.usuario}|${item.produto}|${item.quantidade}|${item.local}`
         ).join('\n');
 
         const blob = new Blob([conteudoCsv], { type: 'text/csv;charset=utf-8;' });
