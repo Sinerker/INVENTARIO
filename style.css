@@ -1,248 +1,193 @@
-/* Estilos gerais */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+/* Estilos gerais para o tema relacionado a inventário de estoque */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 20px;
-    padding: 0px;
-    background-color: #000000; /* Fundo escuro para dar contraste */
-    color: #ffffff; /* Cor de texto clara para contraste */
-}
-
-/* Estilos para o título */
-h1 {
-    text-align: center;
-    color: #0077ff; /* Azul elétrico vibrante */
-    font-size: 24px; /* Reduzido para telas pequenas */
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Estilos para os grupos de formulário */
-.form-group {
-    width: 99%;
-    margin: 2px; /* Menor margem */
-}
-
-/* Estilos para os campos de entrada */
-input[type="text"], input[type="number"] {
     width: 100%;
-    padding: 8px;
-    font-size: 14px; /* Fonte reduzida */
-    margin-top: 2px;
-    border: 1px solid #2a2a2d; /* Borda escura */
-    border-radius: 8px;
-    background-color: #333333; /* Fundo de campo mais escuro */
-    color: #ffffff; /* Texto claro */
+    margin: 0px;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f8;
+    /* Fundo claro e neutro */
+    color: #333;
+    /* Texto escuro para legibilidade */
+    height: 600px;
 }
 
-input[type="text"]:focus, input[type="number"]:focus {
-    border-color: #00f2fe; /* Cor neon ao focar */
-    outline: none;
-    box-shadow: 0 0 5px #ffffff; /* Brilho no foco */
-}
-
-/* Estilos para o botão */
+/* Estilos para botões */
 button {
-    margin-top: 20px;
     width: 100%;
-    background-color: #1a1a1a; /* Roxo futurista */
-    color: #ec2121;
-    font-weight: 600;
-    font-size: 14px; /* Menor tamanho */
-    padding: 12px 18px;
-    border: 2px solid #ffffff;
-    border-radius: 8px;
+    background-color: #0056b3;
+    color: #ffffff;
+    border: none;
+    padding: 4px;
+    font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    text-transform: capitalize;
+    font-weight: bold;
 }
 
 button:hover {
-    background-color: #1a1a1a;
-    color: #ec2121;
+    background-color: #000000;
     transform: scale(1.05);
 }
 
-/* Estilo para a mensagem de confirmação */
-#mensagemConfirmacao {
-    margin-top: 10px;
-    padding: 2px;
-    background-color: #11f6f2;
-    color: black;
-    font-weight: bold;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 14px; /* Reduzido */
-}
-
-/* Exibir os dados do produto encontrado */
-#infoProduto {
-    margin: 5px;
+/* Inputs e labels */
+input[type="text"],
+input[type="number"],
+input[type="file"] {
+    flex: 1;
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #000000;
     padding: 8px;
-    background-color: #2a2a2d;
-    border: 1px solid #05d1c7;
-    border-radius: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    width: 50%;
+    box-sizing: border-box;
+    margin-top: 1px;
+    text-transform: uppercase;
 }
 
-#detalhesProduto {
-    font-size: 15px;
-    color: #e0e0e0;
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="file"]:focus {
+    border: 2px solid #00ff15;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+    text-transform: uppercase;
+    scale: 1.03;
+    transition: 0.2s;
 }
 
-/* Estilos para a mensagem de upload bem-sucedido */
-#mensagemUpload {
-    font-size: 12px; /* Reduzido */
-    padding: 6px 12px;
-    margin: 5px;
-    background-color: #29b6f6; /* Azul claro neon */
-    color: #1c1c1c;
-    border: 1px solid #1e88e5;
+label {
+    flex: 0 0 70px;
+    display: inline-flex;
+    font-weight: bold;
+    margin: 10px 0 5px;
+    color: #0056b3;
+    /* Azul para destaque */
+}
+
+/* Containers e mensagens */
+.form-group {
+    margin: 10px;
+    max-width: 100%;
+    /* margin-left: auto;
+    margin-right: auto; */
+    background-color: #ffffff;
+    padding: 5px;
     border-radius: 8px;
-    max-width: 280px; /* Menor largura */
+    box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.8);
+}
+
+
+#mensagemUpload p {
+    text-transform: uppercase;
+    background-color: #e9f5ff;
+    border: 1px solid #b3daff;
+    color: #0056b3;
+    padding: 5px 0;
     text-align: center;
-}
-
-/* Estilos para a lista de produtos encontrados */
-#listaProdutosEncontrados {
-    margin-top: 2px;
-}
-
-#listaProdutos {
-    list-style: none;
-    padding: 0;
+    line-height: 30px;
+    border-radius: 5px;
     margin: 0;
-    
+    height: 30px;
+    font-weight: bold;
+}
+
+#mensagemConfirmacao {
+    margin-left: 10%;
+    margin-right: 10%;
+
+    -webkit-text-stroke-width: 0.0px;
+    -webkit-text-stroke-color: #333;
+    font-weight: bold;
+    background-color: #2f8703;
+    border: 1px solid #e9f5ff;
+    color: #ffffff;
+    padding: 5px;
+    text-align: center;
+    border-radius: 15px;
+    margin-top: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#infoProduto,
+#listaProdutosEncontrados {
+    background-color: #f8f9fa;
+    border: 1px solid #19cdd6;
+    color: #333;
+    padding: 05px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+ul {
+    padding-inline-start: 5px;
 }
 
 #listaProdutos li {
+    font-size: 14px;
+    list-style: none;
     padding: 10px;
-    margin-bottom: 8px;
-    background-color: #333333;
-    border: 1px solid #444444;
-    border-radius: 8px;
+    margin: 2px;
+    background-color: #ffffff;
+    color: #333;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s ease;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    border: 1px solid #6d6b6b;
 }
 
 #listaProdutos li:hover {
-    background-color: #9b4dff; /* Roxo futurista para hover */
-    transform: scale(1.02);
+    background-color: #ffffff;
+    border: 2px solid #19cdd6;
 }
 
-/* Estilos para tela cheia */
-#botaoTelaCheia {
-    background-color: #ff4040; /* Rosa neon */
-    color: white;
-    font-size: 12px; /* Menor tamanho de fonte */
-    border-radius: 8px;
-    cursor: pointer;
-    border: none;
-    display: block;
-    transition: background-color 0.3s ease;
+/* Botão de salvar inventário final */
+#botaoSalvarFinal {
+
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-#botaoTelaCheia:hover {
-    background-color: #c60055; /* Rosa mais escuro no hover */
+#botaoSalvarFinal:hover {
+    background-color: #000000;
+    transform: scale(1.05);
 }
 
-/* Estilos para o campo de seleção de arquivos */
-#uploadArquivo {
-    padding: 5px;
-    background-color: #333333;
-    border: 1px solid #444444;
-    border-radius: 8px;
-    color: #e0e0e0;
-    margin-top: 2px;
+
+/* Ajustando a linha da quantidade para alinhar corretamente */
+.linha {
+    display: flex;
+    align-items: center;
+    gap: 2px; /* Reduzindo o espaço entre os elementos */
+    justify-content: space-between;
 }
 
-#uploadArquivo:focus {
-    border-color: #00f2fe;
-    outline: none;
-    box-shadow: 0 0 5px #00f2fe;
+.linha label {
+    width: 22%; /* Reduzindo a largura do label para diminuir o espaçamento */
+    text-align: left; /* Alinha o texto à esquerda */
 }
 
-/* Media Queries para telas pequenas */
-@media screen and (max-width: 768px) {
-    /* Ajuste para o título */
-    h1 {
-        font-size: 15px; /* Fonte menor */
-    }
 
-    /* Ajuste nos inputs */
-    input[type="text"], input[type="number"] {
-        font-size: 12px; /* Fonte menor */
-        padding: 8px;
-    }
-
-    /* Ajuste no botão */
-    button {
-        font-size: 12px; /* Fonte menor */
-        padding: 10px 20px;
-    }
-
-    /* Ajuste no conteúdo das mensagens */
-    #mensagemConfirmacao {
-        font-size: 12px; /* Menor */
-    }
-
-    /* Ajuste na lista de produtos */
-    #listaProdutos li {
-        font-size: 12px; /* Fonte menor */
-        padding: 8px;
-    }
-
-    /* Ajuste no botão de tela cheia */
-    #botaoTelaCheia {
-        font-size: 12px; /* Fonte menor */
-        padding: 8px 16px;
-    }
-
-    /* Ajuste para o campo de upload */
-    #uploadArquivo {
-        font-size: 12px; /* Menor fonte */
-        padding: 8px;
-    }
+.linha input {
+    flex: 1; /* Faz o input ocupar o espaço disponível */
 }
 
-/* Media Queries para telas muito pequenas (como smartphones) */
-@media screen and (max-width: 480px) {
-    /* Ajuste para o título */
-    h1 {
-        font-size: 18px; /* Fonte ainda menor */
-    }
-
-    /* Ajuste nos inputs */
-    input[type="text"], input[type="number"] {
-        font-size: 10px; /* Fonte ainda menor */
-        padding: 6px;
-    }
-
-    /* Ajuste no botão */
-    button {
-        font-size: 10px; /* Fonte ainda menor */
-        padding: 8px 16px;
-    }
-
-    /* Ajuste no conteúdo das mensagens */
-    #mensagemConfirmacao {
-        font-size: 10px; /* Menor */
-    }
-
-    /* Ajuste na lista de produtos */
-    #listaProdutos li {
-        font-size: 10px; /* Fonte menor */
-        padding: 6px;
-    }
-
-    /* Ajuste no botão de tela cheia */
-    #botaoTelaCheia {
-        font-size: 10px; /* Fonte menor */
-        padding: 6px 12px;
-    }
-
-    /* Ajuste para o campo de upload */
-    #uploadArquivo {
-        font-size: 10px; /* Menor fonte */
-        padding: 6px;
-    }
+#botaoLimpar {
+    width: 25%; /* Deixar o botão com tamanho automático */
+    padding: 5px 10px;
+    background-color: rgba(255, 0, 0, 0.911);
+    font-weight: bold;
+    border: #333 solid 1px;
+    border-radius: 5px;
+    color: rgb(255, 255, 255);
+    margin-left: auto; /* Empurra o botão para a direita */
 }
