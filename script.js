@@ -358,9 +358,19 @@ document.getElementById('botaoSalvarFinal').addEventListener('click', function (
         }
 
         const cabecalho = ['Usuario', 'CÓD.SISTEMA', 'EAN', 'Produto', 'EMB', 'Quantidade', 'Local'];
-        let conteudoCsv = cabecalho.join('|') + '\n' + request.result.map(item => 
-            `${item.usuario}|${item.produto}|${item.quantidade}|${item.local}`
-        ).join('\n');
+        let conteudoCsv = cabecalho.join('|') + '\n' + request.result.map(item => {
+            // Divide o campo produto para extrair os detalhes
+            const detalhesProduto = item.produto ? item.produto.split(' | ') : [];
+
+            // Abaixo, mapeamos os valores específicos de cada parte
+            const codigoSistema = detalhesProduto[0] || 'N/A';
+            const ean = detalhesProduto[1] || 'N/A';
+            const produtoDescricao = detalhesProduto[2] || 'N/A';
+            const embalagem = detalhesProduto[3] || 'N/A';
+
+            // Monta a linha do CSV
+            return `${item.usuario}|${codigoSistema}|${ean}|${produtoDescricao}|${embalagem}|${item.quantidade}|${item.local}`;
+        }).join('\n');
 
         const blob = new Blob([conteudoCsv], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
@@ -375,6 +385,7 @@ document.getElementById('botaoSalvarFinal').addEventListener('click', function (
         exibirBotaoConfirmacao();
     };
 });
+
 
 // Função para exibir o botão de confirmação após o download
 function exibirBotaoConfirmacao() {
