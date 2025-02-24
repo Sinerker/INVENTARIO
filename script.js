@@ -192,7 +192,7 @@ function exibirListaDeProdutos(produtos) {
         const codigoBarras = produto[3] ? produto[3].trim() : 'Sem código de barras';
 
         // Preenche o item da lista
-        itemLista.innerHTML = `<strong>${codigo}</strong> - ${descricao} | ${embalagem} | <b>${codigoBarras}</b>`;
+        itemLista.innerHTML = `<strong>${codigo}</strong> | <b>${codigoBarras}</b> - ${descricao} | ${embalagem}`;
         
         // Evento de clique para exibir os detalhes completos do produto
         itemLista.addEventListener('click', () => mostrarDetalhesDoProduto(produto));
@@ -244,7 +244,7 @@ document.getElementById('codigoBarras').addEventListener('keydown', function (ev
         let produtoEncontrado = null;
 
         // Tenta buscar pelo código de barras
-        produtoEncontrado = dadosCsv.find(linha => linha[3] && linha[3].trim() === pesquisa);
+        produtoEncontrado = dadosCsv.find(linha => linha[1] && linha[1].trim() === pesquisa);
 
         if (produtoEncontrado) {
             quantidade.scrollIntoView({ behavior: 'smooth', block: 'start' });  // Rolagem suave para o campo quantidade
@@ -358,18 +358,46 @@ document.getElementById('botaoSalvarFinal').addEventListener('click', function (
         }
 
         const cabecalho = ['Usuario', 'Produto', 'Local', 'Quantidade'];
-        let conteudoCsv = cabecalho.join(';') + '\n' + request.result.map(item => `${item.usuario};${item.produto};${item.local};${item.quantidade}`).join('\n');
+        let conteudoCsv = cabecalho.join(';') + '\n' + request.result.map(item => 
+            `${item.usuario};${item.produto};${item.local};${item.quantidade}`
+        ).join('\n');
+
         const blob = new Blob([conteudoCsv], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
         link.download = 'inventario.csv';
-        link.click();
-        alert('Inventário salvo com sucesso!');
-        limparIndexedDB();
 
+        // Simula o clique no link para iniciar o download
+        link.click();
+
+        // Exibe um botão de confirmação para limpar os dados depois do download
+        exibirBotaoConfirmacao();
     };
 });
+
+// Função para exibir o botão de confirmação após o download
+function exibirBotaoConfirmacao() {
+    const botaoConfirmarLimpeza = document.createElement('button');
+    botaoConfirmarLimpeza.textContent = "Confirmar que o inventário foi salvo";
+    botaoConfirmarLimpeza.style.display = 'block';
+    botaoConfirmarLimpeza.style.margin = '10px';
+    botaoConfirmarLimpeza.style.padding = '10px';
+    botaoConfirmarLimpeza.style.backgroundColor = '#d9534f';
+    botaoConfirmarLimpeza.style.color = 'white';
+    botaoConfirmarLimpeza.style.border = 'none';
+    botaoConfirmarLimpeza.style.cursor = 'pointer';
+
+    // Quando o usuário confirmar, aí sim limpamos o IndexedDB
+    botaoConfirmarLimpeza.addEventListener('click', function () {
+        limparIndexedDB();
+        botaoConfirmarLimpeza.remove(); // Remove o botão após a confirmação
+    });
+
+    // Adiciona o botão ao corpo do documento
+    document.body.appendChild(botaoConfirmarLimpeza);
+}
+
 
 // Evento para navegar entre os campos pressionando "Enter"
 document.getElementById('usuario').addEventListener('keydown', event => {
