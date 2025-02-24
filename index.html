@@ -1,77 +1,109 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventário</title>
+    <link rel="icon" href="iconInventario.webp" type="image/webp">
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="form-group">
-        <button id="botaoTelaCheia">Tela Cheia</button>
-    </div>
-    <h1 id="titulo">Inventário de Produtos</h1>
+    <div class="corpo">
+        <div class="form-group">
+            <button id="botaoTelaCheia">Tela Cheia</button>
+        </div>
 
-    <!-- Campo para carregar o arquivo CSV -->
-    <div id="uploadArquivo" class="form-group">
-        <label for="uploadArquivo">Carregar Arquivo CSV:</label>
-        <input type="file" id="uploadArquivo" accept=".csv" />
-    </div>
+        <div class="form-group linha">
+            <label for="usuario">Usuario:</label>
+            <input type="text" id="usuario" name="local" placeholder="Digite o usuário" enterkeyhint="enter" />
+        </div>
 
-    <!-- Mensagem de confirmação após o arquivo ser carregado -->
-    <div id="mensagemUpload" style="display: none;">
-        <p>Arquivo carregado com sucesso!</p>
-    </div>
+        <!-- Campo para digitar o local -->
+        <div class="form-group linha">
+            <label for="local">Local:</label>
+            <input type="text" id="local" name="local" placeholder="Digite o local" enterkeyhint="enter" />
+        </div>
 
-    <div class="form-group">
-        <label for="usuario">Usuario:</label>
-        <input type="text" id="usuario" name="local" placeholder="Digite o usuário" />
-    </div>
+        <!-- Campo para digitar o código de barras -->
+        <div class="form-group linha">
+            <label for="codigoBarras">EAN:</label>
+            <input type="text" id="codigoBarras" name="codigoBarras" placeholder="Cód. acesso ou nome"
+                enterkeyhint="done" />
+        </div>
 
-    <!-- Campo para digitar o local -->
-    <div class="form-group">
-        <label for="local">Local:</label>
-        <input type="text" id="local" name="local" placeholder="Digite o local" />
-    </div>
 
-    <!-- Campo para digitar o código de barras -->
-    <div class="form-group">
-        <label for="codigoBarras">Código de Barras:</label>
-        <input type="text" id="codigoBarras" name="codigoBarras" placeholder="Digite o código de barras" enterkeyhint="done"  />
-    </div>
+        <div id="listaProdutosEncontrados" class="form-group" style="display: none;">
+            <label>Produtos encontrados:</label>
+            <ul id="listaProdutos"></ul>
+        </div>
 
-    <!-- Campo para digitar o nome do produto -->
-    <!-- <div class="form-group">
-        <label for="nomeProduto">Nome do Produto:</label>
-        <input type="text" id="nomeProduto" name="nomeProduto" placeholder="Digite o nome do produto" />
-    </div> -->
-    
-    <div id="listaProdutosEncontrados" class="form-group" style="display: none;">
-        <label>Produtos encontrados:</label>
-        <ul id="listaProdutos"></ul>
-    </div>
+        <!-- Exibição dos dados encontrados no CSV -->
+        <div id="infoProduto" class="form-group" style="display: none;">
+            <label>Dados do Produto Encontrado:</label>
+            <p id="detalhesProduto">Nenhum produto encontrado.</p>
+        </div>
 
-    <!-- Exibição dos dados encontrados no CSV -->
-    <div id="infoProduto" class="form-group" style="display: none;">
-        <label>Dados do Produto Encontrado:</label>
-        <p id="detalhesProduto">Nenhum produto encontrado.</p>
-    </div>
 
-    <!-- Campo para digitar a quantidade -->
-    <div class="form-group">
-        <label for="quantidade">Quantidade:</label>
-        <input type="number" id="quantidade" name="quantidade" placeholder="Digite a quantidade"  />
-    </div>
 
-    <div id="mensagemConfirmacao" style="display: none;">
-        <p>Informações salvas com sucesso!</p>
-    </div>
+        <!-- Campo para digitar a quantidade -->
+        <div class="form-group linha">
+            <label for="quantidade">QTDE:</label>
+            <input type="number" id="quantidade" name="quantidade" placeholder="Digite a qtde" />
+            <button id="botaoLimpar">Limpar</button>
+        </div>
 
-    <!-- Botão de salvar o inventário completo -->
-    <div class="form-group">
-        <button id="botaoSalvarFinal">Salvar Inventário Final</button>
+        <div id="mensagemConfirmacao" style="display: none;">
+            <p>Informações salvas com sucesso!</p>
+        </div>
+
+        <!-- Botão de salvar o inventário completo -->
+        <div class="form-group">
+            <button id="botaoSalvarFinal">Salvar Inventário Final</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
+
 </html>
