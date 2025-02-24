@@ -244,7 +244,7 @@ document.getElementById('codigoBarras').addEventListener('keydown', function (ev
         let produtoEncontrado = null;
 
         // Tenta buscar pelo código de barras
-        produtoEncontrado = dadosCsv.find(linha => linha[1] && linha[1].trim() === pesquisa);
+        produtoEncontrado = dadosCsv.find(linha => linha[3] && linha[3].trim() === pesquisa);
 
         if (produtoEncontrado) {
             quantidade.scrollIntoView({ behavior: 'smooth', block: 'start' });  // Rolagem suave para o campo quantidade
