@@ -1,193 +1,125 @@
-* {
+body{
+    color: #0059ff;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+    background-color: #1be3dd;
 }
 
-
-
-/* Estilos gerais para o tema relacionado a inventário de estoque */
-body {
-    width: 100%;
-    margin: 0px;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f6f8;
-    /* Fundo claro e neutro */
-    color: #333;
-    /* Texto escuro para legibilidade */
-    height: 600px;
+.corpo{
+    width: 90%;
+    max-width: 400px;
+    background: #fff;
+    padding: 20px;
+    margin: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-/* Estilos para botões */
-button {
-    width: 100%;
-    background-color: #0056b3;
-    color: #ffffff;
-    border: none;
-    padding: 4px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-transform: capitalize;
-    font-weight: bold;
-}
-
-button:hover {
-    background-color: #000000;
-    transform: scale(1.05);
-}
-
-/* Inputs e labels */
-input[type="text"],
-input[type="number"],
-input[type="file"] {
-    flex: 1;
-    background-color: #ffffff;
-    color: #333;
-    border: 1px solid #000000;
-    padding: 8px;
-    font-size: 14px;
-    border-radius: 5px;
-    width: 50%;
-    box-sizing: border-box;
-    margin-top: 1px;
-    text-transform: uppercase;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="file"]:focus {
-    border: 2px solid #00ff15;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
-    text-transform: uppercase;
-    scale: 1.03;
-    transition: 0.2s;
-}
-
-label {
-    flex: 0 0 70px;
-    display: inline-flex;
-    font-weight: bold;
-    margin: 10px 0 5px;
-    color: #0056b3;
-    /* Azul para destaque */
-}
-
-/* Containers e mensagens */
-.form-group {
-    margin: 10px;
-    max-width: 100%;
-    /* margin-left: auto;
-    margin-right: auto; */
-    background-color: #ffffff;
-    padding: 5px;
-    border-radius: 8px;
-    box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.8);
-}
-
-
-#mensagemUpload p {
-    text-transform: uppercase;
-    background-color: #e9f5ff;
-    border: 1px solid #b3daff;
-    color: #0056b3;
-    padding: 5px 0;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 5px;
-    margin: 0;
-    height: 30px;
-    font-weight: bold;
-}
-
-#mensagemConfirmacao {
-    margin-left: 10%;
-    margin-right: 10%;
-
-    -webkit-text-stroke-width: 0.0px;
-    -webkit-text-stroke-color: #333;
-    font-weight: bold;
-    background-color: #2f8703;
-    border: 1px solid #e9f5ff;
-    color: #ffffff;
-    padding: 5px;
-    text-align: center;
-    border-radius: 15px;
-    margin-top: 8px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-#infoProduto,
-#listaProdutosEncontrados {
-    background-color: #f8f9fa;
-    border: 1px solid #19cdd6;
-    color: #333;
-    padding: 05px;
-    border-radius: 5px;
-    margin-top: 5px;
-}
-
-ul {
-    padding-inline-start: 5px;
-}
-
-#listaProdutos li {
-    font-size: 14px;
-    list-style: none;
-    padding: 10px;
-    margin: 2px;
-    background-color: #ffffff;
-    color: #333;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    border: 1px solid #6d6b6b;
-}
-
-#listaProdutos li:hover {
-    background-color: #ffffff;
-    border: 2px solid #19cdd6;
-}
-
-/* Botão de salvar inventário final */
-#botaoSalvarFinal {
-
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-#botaoSalvarFinal:hover {
-    background-color: #000000;
-    transform: scale(1.05);
-}
-
-
-/* Ajustando a linha da quantidade para alinhar corretamente */
-.linha {
+.linha{
     display: flex;
     align-items: center;
-    gap: 2px; /* Reduzindo o espaço entre os elementos */
     justify-content: space-between;
+    margin-bottom: 15px;
 }
 
-.linha label {
-    width: 22%; /* Reduzindo a largura do label para diminuir o espaçamento */
-    text-align: left; /* Alinha o texto à esquerda */
-}
-
-
-.linha input {
-    flex: 1; /* Faz o input ocupar o espaço disponível */
-}
-
-#botaoLimpar {
-    width: 25%; /* Deixar o botão com tamanho automático */
-    padding: 5px 10px;
-    background-color: rgba(255, 0, 0, 0.911);
+label{
+    font-size: 14px;
     font-weight: bold;
-    border: #333 solid 1px;
+    width: 70px;
+    text-align: left;
+}
+
+input{
+    text-transform: uppercase;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    color: rgb(255, 255, 255);
-    margin-left: auto; /* Empurra o botão para a direita */
+    flex: 1;
+    width: calc(100% - 130px);
+    transition: border-color 0.3s ease-in-out;
+    outline: none;
+}
+input:focus{
+    border: 2.5px solid #30e40c;
+    
+}
+
+
+
+button{
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover{
+    background-color: #0056b3;
+}
+#botaoTelaCheia{
+    margin-bottom: 15px;
+}
+
+#btnLimpar{
+    width: 100px;
+    margin-left: 10px;
+    background-color: #ff4444;
+}
+
+#btnLimpar:hover{
+    background-color: #cc0000;
+}
+
+#confirmacao{
+    text-align: center;
+    background: #dff0d8;
+    color: #3c763d;
+    padding: 12px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: none;
+    font-weight: bold;
+}
+
+.listaProdutosEncontrados{
+    cursor: pointer;
+}
+
+.listaProdutosEncontrados , .infoProduto{
+    margin-top: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+li{
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+    list-style: none;
+}
+
+li:hover{
+    border: 3px solid #30e40c;
+    color: rgb(2, 167, 24);
+}
+
+input[type="checkbox"] {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    cursor: pointer;
 }
