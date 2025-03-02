@@ -1,6 +1,6 @@
 // Variáveis Globais
 const telaCheia = document.getElementById("botaoTelaCheia");
-const arquivo = 'EANS COMBINADOS.txt';
+const arquivo = 'https://raw.githubusercontent.com/Sinerker/INVENTARIO/refs/heads/main/EANS%20COMBINADOS.txt';
 let dadosCsv = [];
 const checkboxQtde1 = document.getElementById("checkboxQtde1");
 const campoQuantidade = document.getElementById("quantidade");
