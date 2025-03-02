@@ -71,8 +71,8 @@ button:hover{
 }
 
 #btnLimpar{
-    width: 100px;
-    margin-left: 10px;
+    justify-content: center;
+    width: 100%;
     background-color: #ff4444;
 }
 
