@@ -86,6 +86,7 @@ function buscarProduto(codBarras) {
         let produtoEncontrado = dadosCsv.find(linha => linha[2] === codBarras);
         document.getElementById('detalhesProduto').style.display = "block";
         document.getElementById("quantidade").focus();
+        document.getElementById("quantidade").select();
 
         if (checkboxQtde1.checked) {
             setTimeout(() => {
@@ -154,6 +155,7 @@ function buscarProduto(codBarras) {
             `;
             document.getElementById("detalhesProduto").innerHTML = produtoFormatado;
             document.querySelector('.infoProduto').style.display = "block";
+            document.getElementById("quantidade").select();
         }
     } else {
         document.querySelector('.infoProduto').style.display = "none";
