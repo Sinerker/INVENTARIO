@@ -85,8 +85,11 @@ function buscarProduto(codBarras) {
         // Busca produto pelo código de barras
         let produtoEncontrado = dadosCsv.find(linha => linha[2] === codBarras);
         document.getElementById('detalhesProduto').style.display = "block";
-        document.getElementById("quantidade").focus();
-        document.getElementById("quantidade").select();
+        if(produtoEncontrado){
+            campoQuantidade.focus();
+            campoQuantidade.select();
+        }
+
 
         if (checkboxQtde1.checked) {
             setTimeout(() => {
@@ -137,6 +140,10 @@ function buscarProduto(codBarras) {
                         `;
                         document.querySelector('.infoProduto').style.display = "block";
                         document.querySelector('.listaProdutosEncontrados').style.display = "none";
+                        document.getElementById("quantidade").focus();
+                        document.getElementById("quantidade").select();
+
+
                     });
                     listaProdutos.appendChild(li);
                 });
@@ -155,7 +162,6 @@ function buscarProduto(codBarras) {
             `;
             document.getElementById("detalhesProduto").innerHTML = produtoFormatado;
             document.querySelector('.infoProduto').style.display = "block";
-            document.getElementById("quantidade").select();
         }
     } else {
         document.querySelector('.infoProduto').style.display = "none";
@@ -189,11 +195,12 @@ function verificarSomaQuantidade(codBarras) {
         if (contagens.length > 0) {
             let somaQuantidades = contagens.reduce((total, registro) => total + registro.quantidade, 0);
             document.getElementById("quantidade").value = somaQuantidades;
-            document.getElementById("quantidade").focus();
             document.getElementById("quantidade").select();
         } else {
             document.getElementById("quantidade").value = "";
         }
+    campoQuantidade.focus();
+    campoQuantidade.select();
     };
 
     request.onerror = function(event) {
