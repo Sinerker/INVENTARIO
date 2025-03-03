@@ -25,7 +25,7 @@ checkboxQtde1.addEventListener("change", function() {
         campoEAN.focus();
     } else {
         campoQuantidade.value = "";
-        campoQuantidade.disable =false;
+        campoQuantidade.disabled =false;
         campoEAN.focus();
     }
 });
@@ -142,6 +142,8 @@ function buscarProduto(codBarras) {
                         document.querySelector('.listaProdutosEncontrados').style.display = "none";
                         document.getElementById("quantidade").focus();
                         document.getElementById("quantidade").select();
+
+                        verificarSomaQuantidade(linha[2]);
 
 
                     });
@@ -363,8 +365,15 @@ function baixarDadosContagem() {
     request.onsuccess = function(event) {
         const contagens = event.target.result;
         if (contagens.length === 0) {
-            document.getElementById("mensagemConfirmacao").innerHTML = "<p>Não há contagens para baixar.</p>";
-            document.getElementById("mensagemConfirmacao").style.display = "block";
+            let mensagem = document.getElementById("mensagemConfirmacao");
+            mensagem.innerHTML = "<p>Não há contagens para baixar.</p>";
+            mensagem.style.display = "block";
+        
+            // Oculta a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(function() {
+                mensagem.style.display = "none";
+            }, 3000);
+        
             return;
         }
         
