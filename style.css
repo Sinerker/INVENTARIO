@@ -123,3 +123,34 @@ input[type="checkbox"] {
     margin-left: 10px;
     cursor: pointer;
 }
+
+
+#mensagemConfirmacao {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+#mensagemConfirmacao button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+#confirmarDownload {
+    background-color: green;
+    color: white;
+}
+
+#cancelarDownload {
+    background-color: red;
+    color: white;
+}

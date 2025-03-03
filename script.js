@@ -350,9 +350,6 @@ document.querySelectorAll("input").forEach(input => {
 
 
 
-
-
-// Função para baixar os dados do IndexedDB
 function baixarDadosContagem() {
     if (!db) {
         console.error("Banco de dados não inicializado.");
@@ -366,7 +363,8 @@ function baixarDadosContagem() {
     request.onsuccess = function(event) {
         const contagens = event.target.result;
         if (contagens.length === 0) {
-            alert("Não há contagens para baixar.");
+            document.getElementById("mensagemConfirmacao").innerHTML = "<p>Não há contagens para baixar.</p>";
+            document.getElementById("mensagemConfirmacao").style.display = "block";
             return;
         }
         
@@ -387,19 +385,25 @@ function baixarDadosContagem() {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        // Perguntar ao usuário se o download foi concluído
-        setTimeout(() => {
-            const confirmacao = confirm("O arquivo foi baixado corretamente? Se sim, os dados salvos serão apagados.");
-            if (confirmacao) {
-                limparIndexedDB();
-            }
-        }, 1000);
+        // Exibir a mensagem de confirmação no site
+        document.getElementById("mensagemConfirmacao").style.display = "block";
     };
 
     request.onerror = function(event) {
         console.error("Erro ao recuperar dados do IndexedDB: ", event.target.error);
     };
 }
+
+// Evento para o botão "Sim" na mensagem de confirmação
+document.getElementById("confirmarDownload").addEventListener("click", function() {
+    limparIndexedDB();
+    document.getElementById("mensagemConfirmacao").style.display = "none";
+});
+
+// Evento para o botão "Não"
+document.getElementById("cancelarDownload").addEventListener("click", function() {
+    document.getElementById("mensagemConfirmacao").style.display = "none";
+});
 
 // Função para limpar o IndexedDB
 function limparIndexedDB() {
@@ -408,13 +412,19 @@ function limparIndexedDB() {
     const request = store.clear();
 
     request.onsuccess = function() {
-        alert("Banco de dados limpo com sucesso!");
+        document.getElementById("mensagemConfirmacao").innerHTML = "<p>Banco de dados limpo com sucesso!</p>";
+        setTimeout(() => {
+            document.getElementById("mensagemConfirmacao").style.display = "none";
+        }, 2000);
     };
 
     request.onerror = function(event) {
         console.error("Erro ao limpar o IndexedDB: ", event.target.error);
     };
 }
+
+
+
 
 // Adicionar evento ao botão Salvar
 document.getElementById("btnSalvar").addEventListener("click", baixarDadosContagem);
